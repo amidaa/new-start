@@ -12,6 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import org.litepal.LitePal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,11 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private Button forget_password;//忘记密码按钮
     private Button username_clear;//用户名清除
     private Button password_clear;//密码清除
-    private MyDatabaseHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelper = new MyDatabaseHelper(this,"User.db",null,2);
         setContentView(R.layout.activity_main);
         initView();
     }
@@ -86,8 +90,29 @@ public class MainActivity extends AppCompatActivity {
         log_button.setOnClickListener(new View.OnClickListener() {//为登录按钮设置监听
             @Override
             public void onClick(View view) {
+//                LitePal.getDatabase();
+//                Users users = new Users();
+//                users.setUsername("王芳");
+//                users.setPassword("1234er");
+//                users.setAge(23);
+//                users.setSex("F");
+//                users.save();
+                String usn = username.getText().toString().trim();
+                String psw = password.getText().toString().trim();
+                List<Users> users = LitePal.select("username","password").find(Users.class);
+                for(Users user:users){
+                    if(usn.equals(user.getUsername())){
+                        if(psw.equals(user.getPassword())){
+                            Intent intent = new Intent(MainActivity.this,RegisterActivity.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(MainActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-                dbHelper.getWritableDatabase();
 
             }
         });
@@ -102,36 +127,7 @@ public class MainActivity extends AppCompatActivity {
         forget_password.setOnClickListener(new View.OnClickListener() {//为忘记密码按钮设置监听
             @Override
             public void onClick(View view) {
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                ContentValues values = new ContentValues();
-                //数据库的插入操作
-//                values.put("username","李丹");
-//                values.put("password","zf234we");
-//                values.put("age","18");
-//                values.put("sex","F");
-//                db.insert("Users",null,values);
-//                values.put("username","lisa");
-//                values.put("password","weare1234");
-//                values.put("age","20");
-//                values.put("sex","F");
-//                db.insert("Users",null,values);
-                //数据库的更新操作
-//                values.put("age",19);
-//                db.update("Users",values,"username=?", new String[]{"李丹"});
-                //数据库的删除操作
-//                db.delete("Users","age<?",new String[]{"20"});
-                //数据库的查询操作
-                Cursor cursor = db.query("Users",null,null,null,null,
-                null,null);
-                if(cursor.moveToFirst()){
-                    do{
-                        String name = cursor.getString(cursor.getColumnIndex("username"));
-                        String psw = cursor.getString(cursor.getColumnIndex("password"));
-                        Log.d("MainActivity","用户名为："+name);
-                        Log.d("MainActivity","密码为："+psw);
-                    }while (cursor.moveToNext());
-                }
-                cursor.close();
+
             }
         });
 
