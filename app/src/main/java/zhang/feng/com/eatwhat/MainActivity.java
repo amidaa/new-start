@@ -14,6 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
@@ -29,12 +36,33 @@ public class MainActivity extends AppCompatActivity {
     private Button forget_password;//忘记密码按钮
     private Button username_clear;//用户名清除
     private Button password_clear;//密码清除
+    private String islegaluser;//判断用户输入是否正确
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
     }
+    private void sendRequestWithVolley(){
+        RequestQueue mQueue = Volley.newRequestQueue(this);//获取requestqueue对象
+        String url = "http://www.baidu.com";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                islegaluser="resonse is"+response.substring(0,100);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                islegaluser="there's something wrong.";
+
+            }
+        });
+        mQueue.add(stringRequest);
+
+    }
+
     private void initView(){
         username = (EditText)findViewById(R.id.userName);
         password = (EditText)findViewById(R.id.passWord);
@@ -90,20 +118,13 @@ public class MainActivity extends AppCompatActivity {
         log_button.setOnClickListener(new View.OnClickListener() {//为登录按钮设置监听
             @Override
             public void onClick(View view) {
-//                LitePal.getDatabase();
-//                Users users = new Users();
-//                users.setUsername("王芳");
-//                users.setPassword("1234er");
-//                users.setAge(23);
-//                users.setSex("F");
-//                users.save();
                 String usn = username.getText().toString().trim();
                 String psw = password.getText().toString().trim();
                 List<Users> users = LitePal.select("username","password").find(Users.class);
                 for(Users user:users){
                     if(usn.equals(user.getUsername())){
                         if(psw.equals(user.getPassword())){
-                            Intent intent = new Intent(MainActivity.this,RegisterActivity.class);
+                            Intent intent = new Intent(MainActivity.this,MajorActivity.class);
                             startActivity(intent);
                         }else{
                             Toast.makeText(MainActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
@@ -116,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        //注册按钮设置监听
         register.setOnClickListener(new View.OnClickListener() {//为新用户注册设置监听
             @Override
             public void onClick(View view) {
