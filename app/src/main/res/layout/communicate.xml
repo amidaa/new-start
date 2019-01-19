@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/backgroundtwo">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:textSize="34dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="40dp"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="40dp"
+            android:height="300dp"
+            android:background="@color/colorPrimaryDark"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="14dp"
+            >
+
+            <Button
+                android:layout_width="55dp"
+                android:layout_height="50dp"
+                android:background="@mipmap/smilling"
+                android:layout_marginLeft="20dp"
+                />
+            <Button
+                android:layout_width="55dp"
+                android:layout_height="50dp"
+                android:background="@mipmap/smilling"
+                android:layout_marginLeft="20dp"
+                />
+            <Button
+                android:layout_width="55dp"
+                android:layout_height="50dp"
+                android:background="@mipmap/smilling"
+                android:layout_marginLeft="20dp"
+                />
+
+            <Button
+                android:layout_width="55dp"
+                android:layout_height="50dp"
+                android:background="@mipmap/smilling"
+                android:layout_marginLeft="20dp"
+                />
+
+            <Button
+                android:layout_width="55dp"
+                android:layout_height="50dp"
+                android:background="@mipmap/smilling"
+                android:layout_marginLeft="20dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp"
+            >
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="40dp"
+                android:background="@mipmap/smilling"
+                android:layout_marginLeft="20dp"
+                />
+            <EditText
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

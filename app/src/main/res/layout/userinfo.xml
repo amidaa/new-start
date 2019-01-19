@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <feng.zhang.com.ratiolayout.RatioLayout
+        android:id="@+id/ratio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <feng.zhang.com.ratiolayout.DynamicAvatarView
+            android:id="@+id/head_portrait"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/logo"/>
+        <!--动态头像-->
+    </feng.zhang.com.ratiolayout.RatioLayout>
+
+</android.support.constraint.ConstraintLayout>

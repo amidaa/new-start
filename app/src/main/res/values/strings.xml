@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">EatWhat</string>
+    <string name="button_bloodpressure">血压</string>
+    <string name="button_bloodglucose">血糖</string>
+    <string name="button_heartrate">心率</string>
+    <string name="button_walkway">步行</string>
 </resources>

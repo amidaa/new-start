@@ -3,10 +3,10 @@ package zhang.feng.com.eatwhat;
 import org.litepal.crud.LitePalSupport;
 
 public class Users extends LitePalSupport{
-    private String username;
-    private String password;
-    private int age;
-    private String sex;
+    private String username;//用户名
+    private String password;//密码
+    private int age;//年龄
+    private String sex;//性别
 
     public String getUsername() {
         return username;
