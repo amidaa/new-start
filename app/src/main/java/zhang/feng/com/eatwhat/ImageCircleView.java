@@ -80,7 +80,7 @@ import android.graphics.PorterDuff;
  * Created by Administrator on 2016/1/2 0002.
  */
 //public class PorterDuffViewImage extends ImageView
-public class ImageCircleView extends android.support.v7.widget.AppCompatImageView
+public class ImageCircleView extends androidx.appcompat.widget.AppCompatImageView
 {
 
     private Paint mpaint;

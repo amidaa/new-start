@@ -4,4 +4,9 @@
     <string name="button_bloodglucose">血糖</string>
     <string name="button_heartrate">心率</string>
     <string name="button_walkway">步行</string>
+    <string name="issue_date">2019/1/21</string>
+    <string name="issue_content">今天走了5公里，感觉身体棒棒哒</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

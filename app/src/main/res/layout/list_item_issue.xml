@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal">
+        <!--头像-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/head_portrait"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="0"/>
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           android:layout_weight="1">
+           <TextView
+               android:id="@+id/issue_author"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/issue_date"
+               android:layout_weight="1"/>
+           <!--发布时间-->
+           <TextView
+               android:id="@+id/issue_date"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/issue_date" />
+       </LinearLayout>
+        <!--点击图标实现关注用户-->
+        <ImageButton
+            android:id="@+id/attention"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--发表的文章-->
+        <TextView
+            android:id="@+id/article"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/issue_content"/>
+        <!--发布的图片或者视频-->
+        <ImageView
+            android:id="@+id/issue_photo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>

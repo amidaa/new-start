@@ -3,7 +3,7 @@ package feng.zhang.com.ratiolayout;
 import android.content.Context;
 import android.util.AttributeSet;
 
-public class BubbleView extends android.support.v7.widget.AppCompatTextView {
+public class BubbleView extends androidx.appcompat.widget.AppCompatTextView {
     public BubbleView(Context context) {
         super(context);
     }
