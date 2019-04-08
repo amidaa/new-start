@@ -1,0 +1,143 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:Android="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundtwo">
+
+
+    <zhang.feng.com.eatwhat.ImageCircleView
+        android:id="@+id/imgView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center|top"
+        android:src="@drawable/logo"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp">
+
+
+        <EditText
+            android:id="@+id/userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:hint="@string/userName"
+            android:maxLength="20"
+            android:paddingLeft="40dp"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:background="@drawable/setbbr_bg"/>
+
+        <ImageView
+            android:id="@+id/user_ico"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignLeft="@id/userName"
+            android:layout_alignTop="@+id/userName"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/user" />
+        <ImageView
+            android:id="@+id/user_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/userName"
+            android:layout_alignTop="@+id/userName"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/delete" />
+
+
+        <EditText
+            android:id="@+id/passWord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/userName"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:hint="密码："
+            android:maxLength="20"
+            android:textSize="30dp"
+            android:paddingLeft="40dp"
+            android:textColor="@color/white"
+            android:background="@drawable/setbbr_bg"
+            android:inputType="textPassword"/>
+        <ImageView
+            android:id="@+id/password_ico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/passWord"
+            android:layout_alignLeft="@id/passWord"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/lock" />
+
+
+        <ImageView
+            android:id="@+id/password_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/passWord"
+            android:layout_alignTop="@+id/passWord"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/delete" />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:textSize="20dp"
+        android:typeface="serif"
+        android:textScaleX="1"
+        android:textColor="@color/login_color"
+        android:text="@string/login"
+        android:background="@drawable/button_clicked"/>
+    <CheckBox
+        android:id="@+id/remember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="40dp"
+        android:checked="true"
+        android:textColor="@color/login_color"
+        android:text="@string/storePassword"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/forget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/forgetPassword"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:textColor="@color/login_color"
+            android:background="@drawable/setbbr_bg"/>
+        <Button
+            android:id="@+id/newUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:text="@string/newUser"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:textColor="@color/login_color"
+            android:background="@drawable/setbbr_bg"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,13 +1,75 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="feng.zhang.com.fragment.NewsFragment">
+    android:background="@mipmap/backgroundtwo">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/head_banner"
+                android:layout_width="match_parent"
+                android:layout_height="300px"
+                android:background="@color/gray" />
+
+            <WebView
+                android:id="@+id/web_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"></WebView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:id="@+id/rg_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/article_page"
+                        style="@style/article_style"
+                        android:background="@android:color/transparent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:textSize="14dp"
+                        android:drawableTop="@drawable/article_bg"
+                        android:textColor="@color/colorBottomNavigationInactive"
+                        android:text="@string/article" />
+
+                    <RadioButton
+                        android:id="@+id/video_page"
+                        style="@style/video_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:button="@null"
+                        android:drawableTop="@drawable/video_bg"
+                        android:textColor="@color/colorBottomNavigationInactive"
+                        android:text="@string/video" />
+
+
+                </RadioGroup>
+
+                <FrameLayout
+                    android:id="@+id/second_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

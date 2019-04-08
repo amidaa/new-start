@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_friend"
-            android:icon="@drawable/key"
-            android:title="Fridend"/>
+        <item android:id="@+id/nav_personal_center"
+            android:icon="@mipmap/center"
+            android:title="@string/personalcenter"/>
         <item android:id="@+id/nav_recent"
-            android:icon="@drawable/key"
-            android:title="Recent"/>
-        <item android:id="@+id/nav_decration"
-            android:icon="@drawable/key"
-            android:title="Decration"/>
-        <item android:id="@+id/nav_file"
-            android:icon="@drawable/key"
-            android:title="File"/>
+            android:icon="@mipmap/mood"
+            android:title="@string/mood"/>
+        <item android:id="@+id/nav_goal"
+            android:icon="@mipmap/plan"
+            android:title="@string/goal"/>
+        <item android:id="@+id/nav_talk"
+            android:icon="@mipmap/secret"
+            android:title="@string/personal_talk"/>
         <item android:id="@+id/nav_setting"
-            android:icon="@drawable/key"
-            android:title="Fridend"/>
+            android:icon="@mipmap/friends"
+            android:title="@string/friends"/>
 
     </group>
 

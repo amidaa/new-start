@@ -1,0 +1,61 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="example_switch"
+        android:summary="@string/pref_description_social_recommendations"
+        android:title="@string/pref_title_social_recommendations" />
+
+    <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+    <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+    <!--android:key
+对于要保留数据值的首选项，必须拥有此属性。它指定系统在将此设置的值保存在 SharedPreferences 中时所用的唯一键（字符串）。-->
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_display_name"
+        android:inputType="textCapWords"
+        android:key="example_text"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_display_name" />
+
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <ListPreference
+        android:defaultValue="-1"
+        android:entries="@array/pref_example_list_titles"
+        android:entryValues="@array/pref_example_list_values"
+        android:key="example_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_add_friends_to_messages" />
+    <CheckBoxPreference
+        android:key="pref_sync"
+        android:title="xx"
+        android:summary="@string/everyday_meal"
+        android:defaultValue="true" />
+
+    <!--分组-->
+    <PreferenceCategory
+        android:title="@string/everyday_meal"
+        android:key="pref_key_storage_settings">
+        <CheckBoxPreference
+            android:key="pref_key_auto_delete"
+            android:summary="@string/intelligent_test"
+            android:title="@string/write_by_hand"
+            android:defaultValue="false"/>
+        <Preference
+            android:key="pref_key_sms_delete_limit"
+            android:dependency="pref_key_auto_delete"
+            android:summary="@string/write_by_hand"
+            android:title="@string/register" />
+        <Preference
+            android:key="pref_key_mms_delete_limit"
+            android:dependency="pref_key_auto_delete"
+            android:summary="@string/title_activity_settings"
+            android:title="@string/today" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

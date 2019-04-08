@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/search"
-        android:icon="@mipmap/searchi"
+        android:icon="@mipmap/search"
         android:title="search"
         app:showAsAction="always"/>
     <item android:id="@+id/love"
@@ -10,7 +10,7 @@
         android:title="love"
         app:showAsAction="ifRoom"/>
     <item android:id="@+id/setting"
-        android:icon="@mipmap/setting"
+        android:icon="@mipmap/point"
         android:title="setting"
         app:showAsAction="never"/>
 </menu>

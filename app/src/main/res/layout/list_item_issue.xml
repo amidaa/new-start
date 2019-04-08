@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@drawable/item_selector">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +17,8 @@
             android:id="@+id/head_portrait"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_weight="0"/>
+            android:layout_weight="0"
+            android:src="@mipmap/head_e"/>
        <LinearLayout
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
@@ -24,7 +28,7 @@
                android:id="@+id/issue_author"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="@string/issue_date"
+               android:text="huahua"
                android:layout_weight="1"/>
            <!--发布时间-->
            <TextView
@@ -38,7 +42,8 @@
             android:id="@+id/attention"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0"/>
+            android:layout_weight="0"
+            android:src="@mipmap/moodico"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,11 +56,27 @@
             android:layout_height="wrap_content"
             android:text="@string/issue_content"/>
         <!--发布的图片或者视频-->
-        <ImageView
+        <GridView
             android:id="@+id/issue_photo"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            />
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:numColumns="5"
+            android:columnWidth="60dp"
+            android:horizontalSpacing="6dp"
+            android:descendantFocusability="blocksDescendants"
+            android:focusable="true" />
+
+        <com.zhuang.likeviewlibrary.LikeView
+            android:id="@+id/like_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:like_canCancel="true"
+            app:like_iconSize="18dp"
+            app:like_hasFly="false"
+            app:like_textSize="12dp"/>
+        <!--like_canCancel是控制是否可以点赞，第一次点击新增点赞，第二次点击取消点赞
+        like_hasFly是控制是否有图标飞出-->
     </LinearLayout>
 
 </LinearLayout>

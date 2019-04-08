@@ -7,7 +7,7 @@
         android:id="@+id/icon_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@drawable/carrot"
+        android:src="@mipmap/head_e"
         android:layout_centerInParent="true"/>
     <TextView
         android:id="@+id/nickname"
@@ -15,12 +15,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="huahua"
-        android:textSize="14sp"/>
+        android:layout_marginLeft="30dp"
+        android:textSize="14sp"
+        android:textColor="#fff"/>
     <TextView
         android:id="@+id/sex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/nickname"
+        android:layout_marginLeft="30dp"
         android:text="女"
         android:textSize="14sp"
         android:textColor="#fff"/>

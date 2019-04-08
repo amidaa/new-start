@@ -16,6 +16,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
@@ -32,4 +43,15 @@ dependencies {
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'//引用图表hellocharts表格
     implementation 'com.android.volley:volley:1.1.1'//引用volley
     implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'//引用AHBottomNavigation
+    implementation 'com.youth.banner:banner:1.4.10'//引用轮播图的第三方插件
+    implementation 'com.github.bumptech.glide:glide:3.5.2'//引用Glide
+    implementation project(":vitamio")//引用vitamio第三方视频播放插件
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    implementation 'com.carson_ho:SearchLayout:1.0.1'//导入SearchLayout
+    implementation 'com.marshalchen.ultimaterecyclerview:library:0.7.3'//导入ultimaterecyclerview
+    implementation 'com.zhuang:likeview:2.1'
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+    implementation 'top.zibin:Luban:1.1.8'
+    implementation project(path: ':lib-todaystepcounter')//鲁班图片压缩
+    implementation 'com.zkk.view:ZkkRulerView:1.0.0'//实现标尺选择器的依赖
 }

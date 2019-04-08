@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">-->
+
+<!--</PreferenceScreen>-->
+<!--描述性XML文件，把私有存储空间的根路径映射为activity_photo,这个名字仅供FileProvider内部使用-->
+<Paths>
+    <file-path name="activity_photos" path="."/>
+</Paths>

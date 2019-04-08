@@ -8,4 +8,118 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppLightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryTextBlack</item>
+        <item name="android:textColorSecondary">@color/colorSubTextBlack</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="AppGreenTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/green4</item>
+        <item name="colorAccent">@color/green4</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryTextBlack</item>
+        <item name="android:textColorSecondary">@color/colorSubTextBlack</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="RadioButtonTab">
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+
+    <style name="article_style" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/article_bg</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="video_style" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/video_bg</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="heart_rate_style" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/heart_rate</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="blood_pressure_style" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/blood_pressure</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="blood_glucose_style" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/blood_glucose</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="walkway_style" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/walkway_btn</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/text_active</item>
+    </style>
+    <style parent="ThemeOverlay.AppCompat.Dark.ActionBar" name="AppTheme.AppBarOverlay">
+        <item name="actionBarItemBackground">@color/green4</item>
+    </style>
+
+    <style parent="ThemeOverlay.AppCompat.Light" name="AppTheme.PopupOverlay"/>
+
+
+    <style name="appAnimation">
+
+    <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+
+    <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
+
+    <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
+
+    <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+
+    <item name="android:windowEnterAnimation">@anim/fade_in</item>
+
+    <!-- 从下面弹出时的动画 -->
+
+
+    <item name="android:windowExitAnimation">@anim/fade_out</item>
+
+    <!-- 从上面下滑到底部时的动画 -->
+
+
+    </style>
+
+    <style name="NewgenTheme" parent="android:Theme.Black.NoTitleBar">
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+    <style name="custom_dialog_style" parent="android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item><!--除去title-->
+        <item name="android:backgroundDimEnabled">true</item><!--半透明-->
+        <item name="android:windowBackground">@color/transparent</item><!--除去背景色-->
+        <item name="android:radius">10dp</item>
+    </style>
+
+
+
 </resources>

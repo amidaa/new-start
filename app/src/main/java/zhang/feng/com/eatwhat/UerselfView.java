@@ -5,8 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
-import feng.zhang.com.ratiolayout.DynamicAvatarView;
-import feng.zhang.com.ratiolayout.RatioLayout;
+import zhang.feng.com.eatwhat.ratiolayout.DynamicAvatarView;
+import zhang.feng.com.eatwhat.ratiolayout.RatioLayout;
 
 public class UerselfView extends AppCompatActivity {
     private DynamicAvatarView mDynamic;

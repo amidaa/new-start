@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.HeartRateFragment"
+    android:background="@mipmap/heart_rate_bg">
+
+    <!--血压计测量-->
+    <Button
+        android:id="@+id/sphygmomanometer_heart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20px"
+        android:layout_marginBottom="20px"
+        android:background="@color/transparent"
+        android:textColor="@color/Coral"
+        android:text="@string/sphygmomanometer"/>
+    <!--手动输入-->
+    <Button
+        android:id="@+id/by_hand_heart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@color/transparent"
+        android:layout_below="@+id/sphygmomanometer_heart"
+        android:textColor="@color/Coral"
+        android:text="@string/write_by_hand"/>
+    <TextView
+        android:id="@+id/heart_rate_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/heart_info"/>
+    <EditText
+        android:id="@+id/heart_rate_write"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:hint="@string/button_heartrate"
+        android:inputType="number"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/heart_rate_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/confirm"
+        android:background="@color/transparent"
+        android:textColor="@color/Coral"
+        android:visibility="gone"/>
+
+</RelativeLayout>

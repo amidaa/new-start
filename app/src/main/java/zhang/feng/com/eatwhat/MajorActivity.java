@@ -1,6 +1,5 @@
 package zhang.feng.com.eatwhat;
 
-import android.content.Intent;
 import android.graphics.Color;
 import androidx.annotation.NonNull;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,13 +11,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-import feng.zhang.com.fragment.ChatFragment;
-import feng.zhang.com.fragment.HomeFragment;
-import feng.zhang.com.fragment.MyFragmentAdapter;
+import zhang.feng.com.eatwhat.fragment.ChatFragment;
+import zhang.feng.com.eatwhat.fragment.HomeFragment;
+import zhang.feng.com.eatwhat.fragment.MyFragmentAdapter;
+import zhang.feng.com.eatwhat.fragment.NewsFragment;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,9 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MajorActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
-    private DrawerLayout mDrawerLayout;
-    private Button bloodpressure;//血压
-    private Button heartrate;//心率
     private AHBottomNavigation bottomNavigation;
     private List<Fragment> fragments = new ArrayList<>();//四个界面
     private ViewPager viewPager;
@@ -45,55 +41,7 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.major_layout);
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        bloodpressure = (Button)findViewById(R.id.bloodpressure);
-        heartrate = (Button)findViewById(R.id.heartrate);
-        NavigationView navigationView = (NavigationView)findViewById(R.id.nav_view);
-        ActionBar actionBar = getSupportActionBar();
-
-
-
-        if(actionBar!=null){
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.menu_launch);
-        }
-        navigationView.setCheckedItem(R.id.nav_friend);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                mDrawerLayout.closeDrawers();
-                return true;
-            }
-        });
-        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(v,"Data delete",Snackbar.LENGTH_SHORT).setAction("Undo", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(MajorActivity.this,"Data restored",Toast.LENGTH_SHORT).show();
-                    }
-                }).show();
-            }
-        });
-//        bloodpressure.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MajorActivity.this,BloodPressureChartView.class);
-//                startActivity(intent);
-//            }
-//        });
-//        heartrate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MajorActivity.this,EnergyChartView.class);
-//                startActivity(intent);
-//            }
-//        });
         addBottomItems();
     }
 
@@ -105,10 +53,10 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
 
 
         //添加元素
-        AHBottomNavigationItem everydaymeal = new AHBottomNavigationItem(R.string.app_name,R.drawable.carrot,R.color.colorPrimary);
-        AHBottomNavigationItem chatplace = new AHBottomNavigationItem(R.string.app_name,R.drawable.carrot,R.color.colorPrimary);
-        AHBottomNavigationItem news = new AHBottomNavigationItem(R.string.app_name,R.drawable.carrot,R.color.colorPrimary);
-        AHBottomNavigationItem test = new AHBottomNavigationItem(R.string.app_name,R.drawable.carrot,R.color.colorPrimary);
+        AHBottomNavigationItem everydaymeal = new AHBottomNavigationItem(R.string.everyday_meal,R.drawable.tab_1,R.color.little_blue);
+        AHBottomNavigationItem chatplace = new AHBottomNavigationItem(R.string.intelligent_test,R.drawable.tab_2,R.color.little_blue);
+        AHBottomNavigationItem news = new AHBottomNavigationItem(R.string.recommend,R.drawable.tab_3,R.color.little_blue);
+        AHBottomNavigationItem test = new AHBottomNavigationItem(R.string.chat_zone,R.drawable.tab_4,R.color.little_blue);
 
 
         //添加元素
@@ -119,7 +67,7 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
 
 
         //添加背景色
-        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
+        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#54FF9F"));
 
         //禁止转化
         bottomNavigation.setBehaviorTranslationEnabled(false);
@@ -128,9 +76,9 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
 //        bottomNavigation.manageFloatingActionButtonBehavior();
 
         //设置颜色变换,选中的图标着色以及文本的颜色
-        bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
+        bottomNavigation.setAccentColor(Color.parseColor("#FFDEAD"));
 //      未选中的图标着色及文本颜色
-        bottomNavigation.setInactiveColor(Color.parseColor("#747474"));
+        bottomNavigation.setInactiveColor(Color.parseColor("#54FF9F"));
 
 
         //给drawable染色
@@ -140,14 +88,14 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
         bottomNavigation.setTranslucentNavigationEnabled(true);
 
         //设置标题显示状态
-        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE);
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 
 
         //显示圆形效果
         bottomNavigation.setColored(true);
 
         //
-        bottomNavigation.setCurrentItem(1);
+        bottomNavigation.setCurrentItem(0);
 
         //定做通知
         bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F63D2B"));
@@ -160,7 +108,7 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
         Fragment homeFragment = new HomeFragment();
         Fragment assessmentFragment = new ChatFragment();
         Fragment chatplceFragment = new ChatFragment();
-        Fragment newsFragment = new Fragment();
+        Fragment newsFragment = new NewsFragment();
 
         //添加界面元素到列表
         fragments.add(homeFragment);//智能营养
@@ -172,6 +120,7 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
         //
         MyFragmentAdapter myFragmentAdapter = new MyFragmentAdapter(getSupportFragmentManager(),fragments);
         viewPager.setAdapter(myFragmentAdapter);
+        viewPager.setOffscreenPageLimit(3);//设置缓存页面数
         //添加监听
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
@@ -235,32 +184,6 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
     protected void onRestart() {
         super.onRestart();
         System.out.println("-------------------onRestart:");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                break;
-            case R.id.search:
-                Toast.makeText(this,"you clicked search",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.love:
-                Toast.makeText(this,"you clicked love",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.setting:
-                Toast.makeText(this,"you clicked setting",Toast.LENGTH_SHORT).show();
-                break;
-            default:
-        }
-        return true;
     }
 
     @Override

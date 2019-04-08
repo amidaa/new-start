@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PersonalCenterActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/h_back"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@mipmap/personcenter"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/h_head"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/head_e"
+            android:layout_centerInParent="true"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:layout_below="@+id/h_head">
+
+            <ImageView
+                android:id="@+id/user_line"
+                android:layout_width="1dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="15dp"
+                android:background="@android:color/white" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/user_line"
+                android:text="张三"
+                android:textColor="@android:color/white"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/user_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/user_line"
+                android:text="182****5882"
+                android:textColor="@android:color/white"
+                android:textSize="17sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <zhang.feng.com.eatwhat.customview.ItemView
+        android:id="@+id/sex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:left_text="@string/sex"
+        app:left_icon="@mipmap/sex"
+        app:right_text="男"/>
+
+    <zhang.feng.com.eatwhat.customview.ItemView
+        android:id="@+id/p_age"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:left_text="@string/age"
+        app:left_icon="@mipmap/age"
+        app:right_text="风一样的男子"/>
+    <zhang.feng.com.eatwhat.customview.ItemView
+        android:id="@+id/p_height"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:left_text="@string/height"
+        app:left_icon="@mipmap/height"
+        app:right_text="风一样的男子"
+        android:background="@color/shallow_blue"/>
+    <zhang.feng.com.eatwhat.customview.ItemView
+        android:id="@+id/p_weight"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:left_icon="@mipmap/weight"
+        app:left_text="@string/weight"
+        app:right_text="风一样的男子"/>
+
+    <zhang.feng.com.eatwhat.customview.ItemView
+        android:id="@+id/p_symptom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:left_icon="@mipmap/health"
+        app:left_text="@string/symptom">
+
+    </zhang.feng.com.eatwhat.customview.ItemView>
+
+
+    <zhang.feng.com.eatwhat.customview.ItemView
+        android:id="@+id/p_goal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:left_icon="@mipmap/goal"
+        app:left_text="@string/goal">
+
+    </zhang.feng.com.eatwhat.customview.ItemView>
+
+
+</LinearLayout>

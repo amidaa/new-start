@@ -1,8 +1,11 @@
 package zhang.feng.com.eatwhat;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,132 +25,52 @@ import org.litepal.LitePal;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+//主入口 启动app欢迎界面，延时功能和判断功能
+import java.util.Timer;
+import java.util.TimerTask;
 
-//    登录界面
-    private EditText username;//用户名
-    private EditText password;//密码
-    private Button log_button;//登录按钮
-    private Button register;//注册按钮
-    private Button forget_password;//忘记密码按钮
-    private Button username_clear;//用户名清除
-    private Button password_clear;//密码清除
-    private String islegaluser;//判断用户输入是否正确
+public class MainActivity extends AppCompatActivity {
+    private SharedPreferences mSharedPreferences;//实例化SharePreferences,配置记录文件
+    private SharedPreferences.Editor mEditor;
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
-    }
-    private void sendRequestWithVolley(){
-        RequestQueue mQueue = Volley.newRequestQueue(this);//获取requestqueue对象
-        String url = "http://www.baidu.com";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                islegaluser="resonse is"+response.substring(0,100);
+        mSharedPreferences = this.getSharedPreferences("check",MODE_PRIVATE);
+        mEditor = mSharedPreferences.edit();//将SharedPreferences存储，可编辑化
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                islegaluser="there's something wrong.";
 
-            }
-        });
-        mQueue.add(stringRequest);
+        final Intent intent = new Intent(MainActivity.this,WelcomeActivity.class);//初始化跳转欢迎引导界面
+        final Intent loginInt = new Intent(MainActivity.this,LoginActivity.class);
+        Timer timer = new Timer();//创建一个定时器
+        firstLoad(timer,intent,loginInt);
 
     }
 
-    private void initView(){
-        username = (EditText)findViewById(R.id.userName);
-        password = (EditText)findViewById(R.id.passWord);
-        log_button = (Button)findViewById(R.id.log);
-        register = (Button)findViewById(R.id.newUser);
-        forget_password = (Button)findViewById(R.id.forget);
-//        username_clear = (Button)findViewById(R.id.user_right);
-//        password_clear = (Button)findViewById(R.id.password_right);
-        username.addTextChangedListener(new TextWatcher() {//为用户名输入框设置监听
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void firstLoad(Timer timer,Intent intent,Intent loginIntent){
 
-            }
+        boolean firstLoadUI = mSharedPreferences.getBoolean("firstLoadUI",true);
+        if(firstLoadUI){
+            delayTime(timer,intent);
+            mEditor.putBoolean("firstLoadUI",false);//第一次启动后，将firstLoadUI置为false
+            mEditor.commit();//提交，执行操作
+        }else {
+            delayTime(timer,loginIntent);
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String user = username.getText().toString().trim();
-                if("".equals(user)){
-                    //用户名为空
-                }else{
-                    //用户名不为空
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        password.addTextChangedListener(new TextWatcher() {//为密码输入框设置监听
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String pwd = password.getText().toString().trim();
-                if("".equals(pwd)){
-                    //如果输入的密码为空
-                }else{
-                    //如果输入的密码不为空
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        log_button.setOnClickListener(new View.OnClickListener() {//为登录按钮设置监听
-            @Override
-            public void onClick(View view) {
-                String usn = username.getText().toString().trim();
-                String psw = password.getText().toString().trim();
-                List<Users> users = LitePal.select("username","password").find(Users.class);
-                for(Users user:users){
-                    if(usn.equals(user.getUsername())){
-                        if(psw.equals(user.getPassword())){
-                            Intent intent = new Intent(MainActivity.this,MajorActivity.class);
-                            startActivity(intent);
-                        }else{
-                            Toast.makeText(MainActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                        Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-
-            }
-        });
-        //注册按钮设置监听
-        register.setOnClickListener(new View.OnClickListener() {//为新用户注册设置监听
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,RegisterActivity.class);
-                startActivity(intent);
-
-            }
-        });
-        forget_password.setOnClickListener(new View.OnClickListener() {//为忘记密码按钮设置监听
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        }
 
     }
+    private void delayTime(Timer timer, final Intent intent){
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                startActivity(intent);//执行进入
+                finish();//释放当前页面
+            }
+        };
+        timer.schedule(task,1000*1);//1秒后进入
+    }
+
+
 }
