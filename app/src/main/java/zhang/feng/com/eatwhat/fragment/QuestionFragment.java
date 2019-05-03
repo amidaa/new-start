@@ -1,28 +1,35 @@
 package zhang.feng.com.eatwhat.fragment;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.zkk.view.rulerview.RulerView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import androidx.fragment.app.Fragment;
 import zhang.feng.com.eatwhat.R;
+import zhang.feng.com.eatwhat.acache.ACache;
+import zhang.feng.com.eatwhat.volleyopr.DefaultErrorListener;
+import zhang.feng.com.eatwhat.volleyopr.VolleyHttpApi;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,7 +89,7 @@ public class QuestionFragment extends Fragment {
     private CheckBox illness_box_OP;//骨质疏松
 
 
-    private String gender;
+    private int gender;
     private String age;
     private String sports;
     private String illness_time;
@@ -90,6 +97,10 @@ public class QuestionFragment extends Fragment {
     private String height;
     private String weight;
 
+    private VolleyHttpApi mVolleyHttpApi;//网络接口
+    private static String HOST = "http://47.112.28.145:8090/bodyinfoApi/add";
+    private int hostId = 10000;
+    private SharedPreferences mRememberPreferences=null;
 
 
 
@@ -124,10 +135,14 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mVolleyHttpApi = VolleyHttpApi.getInstance();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        mRememberPreferences =getActivity().getSharedPreferences("USER",MODE_PRIVATE);//私有数据，只能被应用
+        hostId = mRememberPreferences.getInt("hostid",10000);
     }
 
     @Override
@@ -224,14 +239,46 @@ public class QuestionFragment extends Fragment {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("gender",gender);
-                bundle.putString("age",age);
-                bundle.putString("sports",sports);
-                bundle.putString("illness_time",illness_time);
-                bundle.putStringArrayList("illness",illness);
-                bundle.putString("height",height);
-                bundle.putString("weight",weight);
+
+
+            String illnessStr = "";
+            for (int i=0;i<illness.size()-1;i++){
+                illnessStr+=illness.get(i)+",";
+            }
+            illnessStr+=illness.get(illness.size()-1);
+            ACache mCache = ACache.get(getActivity());
+            JSONObject information = new JSONObject();
+            try {
+                information.put("userid",hostId);
+                information.put("height",height);
+                information.put("weight",weight);
+                information.put("sex",gender);
+                information.put("illness",illnessStr);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            mCache.put("bodyinformation",information, 2 * ACache.TIME_DAY);//使用ASimpleCache缓存到本地
+            mVolleyHttpApi.putInformationController(HOST, getActivity(), information, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if("1".equals(response.optString("message"))){
+                        Toast.makeText(getActivity(),response.optString("message"), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(),"网络开小差啦，请稍后重试", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+                }
+            }, new DefaultErrorListener() {
+                @Override
+                protected void onErrorResponseFailed(String errorMesg, VolleyError volleyError) {
+
+                }
+            });
+            getActivity().finish();
 
             }
         });
@@ -241,11 +288,12 @@ public class QuestionFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_male:
-                        gender = rg_male.getText().toString();
+                        gender = 1;
                         break;
                     case R.id.rb_female:
-                        gender = rg_female.getText().toString();
+                        gender = 0;
                         break;
+//                        sex :0表示female,1表示male
                 }
             }
         });
@@ -255,19 +303,19 @@ public class QuestionFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_age_21_30:
-                        age = rg_21_30.getText().toString();
+                        age = "21~30";
                         break;
                     case R.id.rb_age_31_40:
-                        age = rg_31_40.getText().toString();
+                        age = "31~40";
                         break;
                     case R.id.rb_age_41_50:
-                        age = rg_41_50.getText().toString();
+                        age = "41~50";
                         break;
                     case R.id.rb_age_51_60:
-                        age = rg_51_60.getText().toString();
+                        age = "51~60";
                         break;
                     case R.id.rb_age_more_than_60:
-                        age = rg_60_.getText().toString();
+                        age = "61~";
                         break;
                 }
             }
@@ -322,37 +370,37 @@ public class QuestionFragment extends Fragment {
         illness_box_no.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                illness.add(illness_box_no.getText().toString());
+                illness.add("Value A");//无慢性病
             }
         });
         illness_box_diabetes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                illness.add(illness_box_diabetes.getText().toString());
+                illness.add("Value B");//糖尿病
             }
         });
         illness_box_hyperlipemia.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                illness.add(illness_box_hyperlipemia.getText().toString());
+                illness.add("Value C");//高血压
             }
         });
         illness_box_hypertension.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                illness.add(illness_box_hypertension.getText().toString());
+                illness.add("Value D");//高血脂
             }
         });
         illness_box_OP.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                illness.add(illness_box_OP.getText().toString());
+                illness.add("Value E");//冠心病
             }
         });
         illness_box_gout.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                illness.add(illness_box_gout.getText().toString());
+                illness.add("Value F");//脑卒中
             }
         });
 
@@ -360,7 +408,7 @@ public class QuestionFragment extends Fragment {
         illness_box_fat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                illness.add(illness_box_fat.getText().toString());
+                illness.add("Value G");//肥胖
             }
         });
 
@@ -368,13 +416,13 @@ public class QuestionFragment extends Fragment {
         illness_box_CVA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                illness.add(illness_box_CVA.getText().toString());
+                illness.add("Value H");//痛风
             }
         });
         illness_box_coronary.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                illness.add(illness_box_coronary.getText().toString());
+                illness.add("Value I");//骨质疏松
             }
         });
 

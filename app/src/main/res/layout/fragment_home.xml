@@ -126,7 +126,7 @@
                             <com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"
                                 android:id="@+id/home_banner"
                                 android:layout_width="match_parent"
-                                android:layout_height="200px" />
+                                android:layout_height="300px" />
 
                         </LinearLayout>
                         <View
@@ -236,8 +236,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_menu_xml">
+        app:itemIconTint="@null">
 
         </com.google.android.material.navigation.NavigationView>
 

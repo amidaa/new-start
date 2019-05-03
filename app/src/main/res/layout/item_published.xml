@@ -7,15 +7,16 @@
 
     <ImageView
         android:id="@+id/iv_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:scaleType="centerCrop"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:background="@color/white"
+        android:src="@drawable/articledemo"/>
     <!--删除按钮-->
     <TextView
         android:id="@+id/bt_del"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="hahah"/>
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

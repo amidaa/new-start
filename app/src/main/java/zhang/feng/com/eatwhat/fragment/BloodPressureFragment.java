@@ -2,17 +2,16 @@ package zhang.feng.com.eatwhat.fragment;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import zhang.feng.com.eatwhat.R;
 
 /**
@@ -29,8 +28,8 @@ public class BloodPressureFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Button mBy_handButton;//手动输入按钮
-    private Button mSphygmomanometerButton;//第三方测量器接口
+    private ImageButton mBy_handButton;//手动输入按钮
+    private ImageButton mSphygmomanometerButton;//第三方测量器接口
     private Button mConfirmButton;//输入确认按钮
 
     private EditText mHighPressure;//高压填写文本
@@ -81,8 +80,8 @@ public class BloodPressureFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_blood_pressure, container, false);
-        mBy_handButton = (Button)view.findViewById(R.id.by_hand);
-        mSphygmomanometerButton = (Button)view.findViewById(R.id.sphygmomanometer);
+        mBy_handButton = (ImageButton)view.findViewById(R.id.by_hand);
+        mSphygmomanometerButton = (ImageButton)view.findViewById(R.id.sphygmomanometer);
         mConfirmButton = (Button)view.findViewById(R.id.input_confirm);
 
 

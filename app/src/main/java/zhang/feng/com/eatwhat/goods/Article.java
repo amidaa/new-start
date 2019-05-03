@@ -1,87 +1,71 @@
 package zhang.feng.com.eatwhat.goods;
 
-import android.graphics.Bitmap;
-
-import java.util.Date;
-import java.util.UUID;
-
 public class Article {
-    private UUID mID;//唯一的编号
-    private String mBriefIntroduction;//文章简介
-    private Bitmap mIntroductionPhoto;//引导图
-    private String mArticleName;//文章名字
-    private String mArticleDetails;//文章内容
-    private String mArticleAuthor;//文章作者
-    private Date mDate;//文章发布时间
+    private Integer articleId;//文章的id
+    private String authorUser;//作者
+    private Integer authorId;//作者的ID
+    private String title;//文章标题
+    private String content;//文章的内容
+    private String createTime;//文章发布时间
 
 
     public Article() {
-        mID = UUID.randomUUID();
     }
 
-    public Article(String mBriefIntroduction, Bitmap mIntroductionPhoto, String mArticleName, String mArticleDetails, String mArticleAuthor, Date mDate) {
-        this.mID = UUID.randomUUID();
-        this.mBriefIntroduction = mBriefIntroduction;
-        this.mIntroductionPhoto = mIntroductionPhoto;
-        this.mArticleName = mArticleName;
-        this.mArticleDetails = mArticleDetails;
-        this.mArticleAuthor = mArticleAuthor;
-        this.mDate = mDate;
+    public Integer getArticleId() {
+        return articleId;
     }
 
-    public String getmBriefIntroduction() {
-        return mBriefIntroduction;
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
     }
 
-    public void setmBriefIntroduction(String mBriefIntroduction) {
-        this.mBriefIntroduction = mBriefIntroduction;
+    public String getAuthorUser() {
+        return authorUser;
     }
 
-    public Bitmap getmIntroductionPhoto() {
-        return mIntroductionPhoto;
+    public void setAuthorUser(String authorUser) {
+        this.authorUser = authorUser;
     }
 
-    public void setmIntroductionPhoto(Bitmap mIntroductionPhoto) {
-        this.mIntroductionPhoto = mIntroductionPhoto;
+    public Integer getAuthorId() {
+        return authorId;
     }
 
-    public UUID getmID() {
-        return mID;
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
     }
 
-    public void setmID(UUID mID) {
-        this.mID = mID;
+    public String getTitle() {
+        return title;
     }
 
-    public String getmArticleName() {
-        return mArticleName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setmArticleName(String mArticleName) {
-        this.mArticleName = mArticleName;
+    public String getContent() {
+        return content;
     }
 
-    public String getmArticleDetails() {
-        return mArticleDetails;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public void setmArticleDetails(String mArticleDetails) {
-        this.mArticleDetails = mArticleDetails;
+    public String getCreateTime() {
+        return createTime;
     }
 
-    public String getmArticleAuthor() {
-        return mArticleAuthor;
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
-    public void setmArticleAuthor(String mArticleAuthor) {
-        this.mArticleAuthor = mArticleAuthor;
-    }
-
-    public Date getmDate() {
-        return mDate;
-    }
-
-    public void setmDate(Date mDate) {
-        this.mDate = mDate;
+    public Article(Integer articleId, String authorUser, Integer authorId, String title, String content, String createTime) {
+        this.articleId = articleId;
+        this.authorUser = authorUser;
+        this.authorId = authorId;
+        this.title = title;
+        this.content = content;
+        this.createTime = createTime;
     }
 }

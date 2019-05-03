@@ -2,20 +2,16 @@ package zhang.feng.com.eatwhat.fragment;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import java.util.UUID;
-
-import zhang.feng.com.eatwhat.ParticularsActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import zhang.feng.com.eatwhat.R;
-import zhang.feng.com.eatwhat.goods.Article;
-import zhang.feng.com.eatwhat.goods.ArticleLab;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,18 +27,17 @@ public class ParticularsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Article mArticle;
-    private TextView mTitle;//标题
-    private TextView mWholeArticle;//全文
+    private String article_path;
+    private String HOST="http://47.112.28.145:8080/images/";
 
 
-    private static final String ARG_NEWS_ID = "news_id";
+    private static final String ARG_NEWS_CONTENT = "news_path";
 
 //用自定义的构造方法传递UUID参数
 
-    public static ParticularsFragment newInstance(UUID newsId){
+    public static ParticularsFragment newInstance(String newContent){
         Bundle args = new Bundle();
-        args.putSerializable(ARG_NEWS_ID,newsId);
+        args.putSerializable(ARG_NEWS_CONTENT,newContent);
 
 
         ParticularsFragment fragment = new ParticularsFragment();
@@ -82,8 +77,7 @@ public class ParticularsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
 
         }
-        UUID newsId = (UUID)getArguments().getSerializable(ARG_NEWS_ID);//通过argument获取文章编号
-        mArticle = ArticleLab.get(getActivity()).getArticle(newsId);
+        article_path = (String) getArguments().getSerializable(ARG_NEWS_CONTENT);//通过argument获取文章路径
     }
 
     @Override
@@ -91,14 +85,18 @@ public class ParticularsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_particulars, container, false);
-        mTitle = (TextView)view.findViewById(R.id.title);
-        mWholeArticle = (TextView)view.findViewById(R.id.whole_article);
-        mTitle.setText(mArticle.getmArticleName());
-        mWholeArticle.setText(mArticle.getmArticleDetails());
-
 
         return view;
 
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        WebView webView = (WebView)view.findViewById(R.id.article_web_view);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient());
+        String url=HOST+article_path;
+        webView.loadUrl(url);
+    }
 }

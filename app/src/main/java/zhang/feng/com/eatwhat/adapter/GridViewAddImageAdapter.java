@@ -1,13 +1,11 @@
 package zhang.feng.com.eatwhat.adapter;
 
 import android.content.Context;
-import android.nfc.Tag;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -92,16 +90,16 @@ public class GridViewAddImageAdapter extends BaseAdapter {
             final File file = new File(datas.get(position).get("path").toString());
             Log.d("xxxxxxxxxx","getView: "+datas.get(position).get("path").toString());
             Glide.with(mContext).load(file).priority(Priority.HIGH).into(((MyViewHolder) viewHolder).ivImage);
-            ((MyViewHolder) viewHolder).ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
+//            ((MyViewHolder) viewHolder).ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
             ((MyViewHolder) viewHolder).ivImage.setVisibility(View.VISIBLE);
         }else{
             /**代表+号的需要+号图片显示图片**/
             Glide.with(mContext)
-                    .load(R.mipmap.picture)
+                    .load(R.drawable.photoimage)
                     .priority(Priority.HIGH)
                     .centerCrop()
                     .into(viewHolder.ivImage);
-            viewHolder.ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
+//            viewHolder.ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
             viewHolder.btdel.setVisibility(View.GONE);
         }
         return convertView;

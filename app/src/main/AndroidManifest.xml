@@ -32,7 +32,10 @@
             android:label="@string/title_activity_settings" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".PublishActivity" />
-        <activity android:name=".VideoPlayActivity" />
+        <!--设置视频只能横向展示-->
+        <activity android:name=".VideoPlayActivity"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity android:name=".ParticularsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -49,7 +52,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MajorActivity" />
-        <activity android:name=".BloodPressureChartView" />
         <activity android:name=".EnergyChartView" />
         <activity
             android:name="io.vov.vitamio.activity.InitActivity"

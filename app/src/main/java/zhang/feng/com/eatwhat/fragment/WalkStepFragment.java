@@ -6,9 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -17,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.today.step.lib.ISportStepInterface;
@@ -27,10 +23,9 @@ import com.today.step.lib.TodayStepService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import androidx.fragment.app.Fragment;
 import zhang.feng.com.eatwhat.R;
 import zhang.feng.com.eatwhat.customview.ProgressView;
-
-import static com.today.step.lib.SportStepJsonUtils.CALORIE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,15 +48,10 @@ public class WalkStepFragment extends Fragment {
 
     private ISportStepInterface iSportStepInterface;//提供的接口模块
 
-    private TextView mStepArrayTextView;//所有数据
 
-    private TextView timeTextView;//时间
-
-    private TextView stepTextView;//当前步数
 
     private TextView mCarlTextView;//当前消耗的能量
 
-    private Button mStepArrayButton;//按钮控制
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -109,33 +99,7 @@ public class WalkStepFragment extends Fragment {
         //初始化计步模块
         TodayStepManager.startTodayStepService(getActivity().getApplication());
 
-        timeTextView = (TextView) view.findViewById(R.id.timeTextView);
-        mStepArrayTextView = (TextView) view.findViewById(R.id.stepArrayTextView);
-        mStepArrayButton = (Button)view.findViewById(R.id.stepArrayButton);
-        stepTextView = (TextView)view.findViewById(R.id.stepTextView);
         mCarlTextView = (TextView)view.findViewById(R.id.cal_about);
-        mStepArrayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != iSportStepInterface) {
-                    try {
-                        JSONArray jsonArray = new JSONArray(iSportStepInterface.getTodaySportStepArray());//获取jsonarray
-//                        String stepArray = iSportStepInterface.getTodaySportStepArray();
-
-                        for(int i=0;i<jsonArray.length();i++){
-                            JSONObject subObject = jsonArray.getJSONObject(i);
-                            Log.d("这是一段废话", "这是一段很长的废话--------------我需要看到你 "+subObject.getString("kaluli"));
-                            mCarlTextView.setText("消耗卡路里"+subObject.getString("kaluli"));//获取其中的kaluli
-                        }
-                      //  mStepArrayTextView.setText(stepArray);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-
         //开启计步Service，同时绑定Activity进行aidl通信
         Intent intent = new Intent(getActivity(), TodayStepService.class);
         getActivity().startService(intent);
@@ -206,7 +170,6 @@ public class WalkStepFragment extends Fragment {
     private void updateStepCount() {
         Log.e("xx", "updateStepCount : " + mStepSum);
         walk_progressView.setCurrentProgress(mStepSum);
-        stepTextView.setText(mStepSum + "步");
 
     }
 
@@ -217,7 +180,7 @@ public class WalkStepFragment extends Fragment {
 
                 for(int i=0;i<jsonArray.length();i++) {
                     JSONObject subObject = jsonArray.getJSONObject(i);
-                    mCarlTextView.setText("消耗卡路里" + subObject.getString("kaluli"));//获取其中的kaluli
+                    mCarlTextView.setText("消耗卡路里" + subObject.getString("kaluli")+"千卡");//获取其中的kaluli
                 }
 
             } catch (Exception e) {
@@ -233,7 +196,6 @@ public class WalkStepFragment extends Fragment {
         public void run() {
 
             currentSecond = currentSecond + 1000;
-            timeTextView.setText(getFormatHMS(currentSecond));
             if (!isPause) {
                 //递归调用本runable对象，实现每隔一秒一次执行任务
                 mhandmhandlele.postDelayed(this, 1000);

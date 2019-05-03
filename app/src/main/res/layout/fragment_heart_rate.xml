@@ -4,29 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.HeartRateFragment"
-    android:background="@mipmap/heart_rate_bg">
+    android:background="@drawable/hhhh">
 
-    <!--血压计测量-->
-    <Button
+    <ImageButton
         android:id="@+id/sphygmomanometer_heart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="20px"
-        android:layout_marginBottom="20px"
-        android:background="@color/transparent"
-        android:textColor="@color/Coral"
-        android:text="@string/sphygmomanometer"/>
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10px"
+        android:layout_marginBottom="10px"
+        android:background="@null"
+        android:src="@drawable/testblood"/>
     <!--手动输入-->
-    <Button
+    <ImageButton
         android:id="@+id/by_hand_heart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="@color/transparent"
         android:layout_below="@+id/sphygmomanometer_heart"
-        android:textColor="@color/Coral"
-        android:text="@string/write_by_hand"/>
+        android:background="@null"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/pen"/>
     <TextView
         android:id="@+id/heart_rate_info"
         android:layout_width="wrap_content"

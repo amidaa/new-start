@@ -18,5 +18,7 @@
     <color name="MediumOrchid">#BA55D3</color>
     <color name="Coral">#FF7F50</color>
 
+    <color name="bg_item_swiping_state">#ffddddff</color>
+
     <color name="white">#ffffff</color>
 </resources>

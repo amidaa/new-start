@@ -1,187 +1,178 @@
 package zhang.feng.com.eatwhat;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import zhang.feng.com.eatwhat.goods.Food;
-import zhang.feng.com.eatwhat.ultimaterecycleview.CommanderHolder;
-
-import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.marshalchen.ultimaterecyclerview.ObservableScrollState;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
-import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback;
-import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import zhang.feng.com.eatwhat.goods.Food;
+import zhang.feng.com.eatwhat.volleyopr.DefaultErrorListener;
+import zhang.feng.com.eatwhat.volleyopr.VolleyHttpApi;
+
 public class RecommendActivity extends AppCompatActivity {
-    private UltimateRecyclerView mUltimateRecyclerView;
-    private CommanderHolder mHolder;
-    private Handler mHandler;
-    private View headView;
-    private UltimateViewAdapter mAdapter;
-    private List<Food> data;
+    RecyclerView recyclerView;
+    MyFoodAdapter adapter = null;
+    LinearLayoutManager linearLayoutManager;
+    int moreNum = 2;
+    private ActionMode actionMode;
+
+    private String IMAGEPATH="http://47.112.28.145:8080/images/foodimage/";
+
+
+    Toolbar toolbar;
+    boolean isDrag = true;
+
+    private ItemTouchHelper mItemTouchHelper;
+
+
+    private VolleyHttpApi mVolleyHttpApi;
+    private String HOST="http://47.112.28.145:8090/foodApi/findAll";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
         setContentView(R.layout.activity_recommend);
-        mHandler = new Handler();
-        mUltimateRecyclerView = (UltimateRecyclerView)findViewById(R.id.recommend_recyclerView);
-        //设置布局的格式
-        mUltimateRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        headView = LayoutInflater.from(this).inflate(R.layout.head_view,null);
-        mAdapter = new CommanderAdapter(data);
-        mUltimateRecyclerView.setAdapter(mAdapter);
-//      为每一个item加入头部的布局,相当于栏目条
-        StickyRecyclerHeadersDecoration stickyRecyclerHeadersDecoration = new StickyRecyclerHeadersDecoration(mAdapter);
-        mUltimateRecyclerView.addItemDecoration(stickyRecyclerHeadersDecoration);
 
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter){
+        toolbar = (Toolbar) findViewById(R.id.recommend_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.mipmap.back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public int getMovementFlags(RecyclerView recyclerView,RecyclerView.ViewHolder viewHolder){
-                final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;//控制拖动方向
-                final int swipeFlags = ItemTouchHelper.LEFT;//控制滑动删除的方向，左滑删除
-                return makeMovementFlags(dragFlags,swipeFlags);
+            public void onClick(View v) {
+                finish();
             }
+        });
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        mVolleyHttpApi = VolleyHttpApi.getInstance();
+
+
+        recyclerView = (RecyclerView) findViewById(R.id.ultimate_recycler_view);
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(false);
+        final ArrayList<Food> foodList = new ArrayList<>();
+        updateUI(new VolleyCallback() {
             @Override
-            public boolean isItemViewSwipeEnabled(){
-                return true;//控制开启或者关闭item能够滑动删除的功能
-            }
+            public void onSuccess(JSONObject result) {
+                JSONArray jsonArray = result.optJSONArray("foods");//获取后端服务器的jsonArray对象
+                String str = jsonArray.toString();//将json对象转换为json字符串
+                java.lang.reflect.Type listType = new TypeToken<ArrayList<Food>>(){}.getType();
+                Gson gson = new Gson();
+                ArrayList<Food> foods = gson.fromJson(str, listType);//将json字符串通过gson转化为对应的对象
+                if(adapter==null){
+                    adapter = new MyFoodAdapter(R.layout.recycler_view_adapter,foods);
+                    View headView = getLayoutInflater().inflate(R.layout.parallax_recyclerview_header,null);
+                    headView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+                    adapter.addHeaderView(headView);
+                    //添加动画
+                    adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+                    adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+                        @Override
+                        public void onLoadMoreRequested() {
 
-
-            @Override
-            public boolean isLongPressDragEnabled() {
-                return true;//控制长按拖动功能
-            }
-
-
-        };
-        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(mUltimateRecyclerView.mRecyclerView);
-
-
-
-        mUltimateRecyclerView.setParallaxHeader(headView);//设置头部
-        mUltimateRecyclerView.enableDefaultSwipeRefresh(true);//开启下拉刷新
-//        mUltimateRecyclerView.isLoadMoreEnabled();//开启上拉载入更多
-        //下拉刷新的监听函数
-        mUltimateRecyclerView.setDefaultOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mUltimateRecyclerView.setRefreshing(false);
-                    }
-                },2000);
+                        }
+                    });
+                    recyclerView.setAdapter(adapter);
+                }else {
+                    adapter.notifyDataSetChanged();//如果数据集发生变化，就调用该方法
+                }
             }
         });
 
 
-    }
-
-    class CommanderAdapter extends UltimateViewAdapter<CommanderHolder>{
-        private List<Food> mFoodList;
 
 
-        public CommanderAdapter(List<Food> foods){
-            mFoodList = foods;
+
+   }
+
+
+    public class MyFoodAdapter extends BaseQuickAdapter<Food, BaseViewHolder> {
+
+        public MyFoodAdapter(@LayoutRes int layoutResId, @Nullable List<Food> foods){
+            super(layoutResId,foods);
+        }
+        @Override
+        protected void convert(BaseViewHolder helper, Food item) {
+            helper.setText(R.id.h_food_name,"名称："+item.getFoodname()).
+                    setText(R.id.food_weight,"重量："+item.getWeight()+"g").
+                    setText(R.id.food_energy, "能量："+item.getEnergy()+"kcal").
+                    setText(R.id.food_use,"适宜人群："+item.getUse()).
+                    setText(R.id.food_appropriate,"适用："+item.getAppropriate()).
+                    setText(R.id.food_fat,"脂肪："+String.valueOf(item.getFat())+"克").
+                    setText(R.id.food_carbohydrate,"碳水化合物："+String.valueOf(item.getCarbohydrate())+"克").
+                    setText(R.id.food_protein,"蛋白质："+String.valueOf(item.getProtein())+"克").
+                    setText(R.id.food_fibrin,"纤维素："+String.valueOf(item.getFibrin())+"克");
+            ImageView imageView = helper.getView(R.id.imageview);
+            String imagePath = IMAGEPATH + item.getImg_path();
+            Uri uri = Uri.parse(imagePath);
+            Glide.with(RecommendActivity.this).load(uri).into(imageView);
         }
 
-
+        //点击事件
 
         @Override
-        public CommanderHolder newFooterHolder(View view) {
-            return null;
+        public void setOnItemClickListener(@Nullable OnItemClickListener listener) {
+            super.setOnItemClickListener(listener);
         }
-
+        //长按事件
         @Override
-        public CommanderHolder newHeaderHolder(View view) {
-            return new CommanderHolder(view);
-        }
-
-        @Override
-        public CommanderHolder onCreateViewHolder(ViewGroup parent) {
-            View view = LayoutInflater.from(RecommendActivity.this).inflate(R.layout.commander_item,null);
-            return new CommanderHolder(view);
-        }
-//      返回item个数，不包含头部和载入view
-        @Override
-        public int getAdapterItemCount() {
-            return mFoodList==null?0:mFoodList.size();
-        }
-
-        @Override
-        public long generateHeaderId(int position) {
-            if(customHeaderView!=null){
-                position-=1;
-            }
-            String s = position+"";
-            return s.charAt(0);
-        }
-        //为每一项item生成头部的view
-
-        @Override
-        public void onBindViewHolder(@NonNull CommanderHolder holder, int position) {
-
-            if (position < getItemCount() && (customHeaderView != null ? position <= mFoodList.size() : position < mFoodList.size()) && (customHeaderView != null ? position > 0 : true)){
-                position-=customHeaderView==null?0:1;
-                holder.foodName.setText(mFoodList.get(position).getFoodName());
-            }
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-
-            View view = LayoutInflater.from(RecommendActivity.this).inflate(R.layout.commander_item,null);
-            return new CommanderHolder(view);
-        }
-
-        @Override
-        public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-
-            if(customHeaderView!=null){
-                i-=1;
-            }
-            ((CommanderHolder)viewHolder).foodName.setText("header"+(i+"").charAt(0));
-            ((CommanderHolder)viewHolder).foodName.setTextColor(Color.parseColor("#FFEEFF"));
-        }
-          //重写拖动移位位置功能
-        @Override
-        public void onItemMove(int fromPosition,int toPosition){
-            swapPositions(data,fromPosition,toPosition);
-            super.onItemMove(fromPosition,toPosition);
-        }
-
-
-        @Override
-        public void onItemDismiss(int position){
-            data.remove(position);
-            super.onItemDismiss(position);
+        public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+            super.setOnItemLongClickListener(listener);
         }
     }
 
-    private void initData(){
-        data = new ArrayList<>();
-        for(int i=0;i<10;i++){
-            Food food = new Food();
-            food.setFoodName("zhognguo"+i);
-            data.add(food);
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
     }
+
+
+    private void updateUI(final VolleyCallback callback){
+        mVolleyHttpApi.UserInfoController(HOST,RecommendActivity.this, new Response.Listener<JSONObject>() {
+
+
+            @Override
+            public void onResponse(JSONObject response) {
+                callback.onSuccess(response);
+            }
+        }, new DefaultErrorListener() {
+            @Override
+            protected void onErrorResponseFailed(String errorMesg, VolleyError volleyError) {
+                Toast.makeText(RecommendActivity.this,errorMesg, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+    public interface VolleyCallback {
+        void onSuccess(JSONObject result);
+
+    }
+
 }

@@ -1,9 +1,5 @@
 package zhang.feng.com.eatwhat;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import zhang.feng.com.eatwhat.volleyopr.VolleyHttpApi;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -15,33 +11,39 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
-import org.litepal.LitePal;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
+import zhang.feng.com.eatwhat.volleyopr.DefaultErrorListener;
+import zhang.feng.com.eatwhat.volleyopr.DefaultJsonListener;
+import zhang.feng.com.eatwhat.volleyopr.VolleyHttpApi;
 
 public class LoginActivity extends AppCompatActivity {
 
     //    登录界面
     private VolleyHttpApi mVolleyHttpApi;//网络请求
+    private DefaultJsonListener mJsonListener;
     private EditText username;//用户名
     private EditText password;//密码
     private Button log_button;//登录按钮
     private Button register;//注册按钮
     private Button forget_password;//忘记密码按钮
-    private Button username_clear;//用户名清除
-    private Button password_clear;//密码清除
+    private ImageButton username_clear;//用户名清除
+    private ImageButton password_clear;//密码清除
     private String islegaluser;//判断用户输入是否正确
     private CheckBox remember;//记住密码功能
     private SharedPreferences mRememberPreferences=null;//存储用户名密码
+
+
+    private String usn;//用户名
+    private String psw;//密码
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,8 @@ public class LoginActivity extends AppCompatActivity {
         register = (Button)findViewById(R.id.newUser);
         forget_password = (Button)findViewById(R.id.forget);
         remember = (CheckBox)findViewById(R.id.remember);
+        username_clear = (ImageButton)findViewById(R.id.user_right);
+        password_clear = (ImageButton)findViewById(R.id.password_right);
         mRememberPreferences = getSharedPreferences("REMEMBERPAW",MODE_PRIVATE);//私有数据，只能被应用本身访问
         boolean isAutoLogin = mRememberPreferences.getBoolean("PSW",false);
         String name = mRememberPreferences.getString("username","");
@@ -113,33 +117,88 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+        username_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                username.setText(null);
+            }
+        });
+        password_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                password.setText(null);
+            }
+        });
         log_button.setOnClickListener(new View.OnClickListener() {//为登录按钮设置监听
             @Override
             public void onClick(View view) {
-                String usn = username.getText().toString().trim();
-                String psw = password.getText().toString().trim();
-                List<Users> users = LitePal.select("username","password").find(Users.class);
-                for(Users user:users){
-                    if(usn.equals(user.getUsername())){
-                        if(psw.equals(user.getPassword())){
+                 usn = username.getText().toString().trim();
+                 psw = password.getText().toString().trim();
+//                List<Users> users = LitePal.select("username","password").find(Users.class);
+//                for(Users user:users){
+//                    if(usn.equals(user.getUsername())){
+//                        if(psw.equals(user.getPassword())){
+//                            //记住密码功能设置
+//                            if(remember.isChecked()){
+////                                mRememberPreferences = getSharedPreferences("REMEMBERPAW",MODE_PRIVATE);//私有数据，只能被应用本身访问
+//                                SharedPreferences.Editor editor = mRememberPreferences.edit();
+//                                editor.putBoolean("PSW",true);//记录保存标记
+//                                editor.putString("username",usn);
+//                                editor.putString("password",psw);
+//                                editor.commit();//提交
+//                            }
+//
+//                            Intent intent = new Intent(LoginActivity.this,MajorActivity.class);
+//                            startActivity(intent);
+//                        }else{
+//                            Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }else{
+//                        Toast.makeText(LoginActivity.this, "", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("username",usn);
+                    jsonObject.put("password",psw);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                mVolleyHttpApi.UserLoginController(LoginActivity.this, jsonObject, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String token = response.optString("token");
+                        if (token != "") {
                             //记住密码功能设置
-                            if(remember.isChecked()){
-//                                mRememberPreferences = getSharedPreferences("REMEMBERPAW",MODE_PRIVATE);//私有数据，只能被应用本身访问
+                            if (remember.isChecked()) {
+//                              mRememberPreferences = getSharedPreferences("REMEMBERPAW",MODE_PRIVATE);//私有数据，只能被应用本身访问
                                 SharedPreferences.Editor editor = mRememberPreferences.edit();
-                                editor.putBoolean("PSW",true);//记录保存标记
-                                editor.putString("username",usn);
-                                editor.putString("password",psw);
+                                editor.putBoolean("PSW", true);//记录保存标记
+                                editor.putString("username", usn);
+                                editor.putString("password", psw);
+                                editor.putString("token",token);
                                 editor.commit();//提交
                             }
-                            Intent intent = new Intent(LoginActivity.this,MajorActivity.class);
+
+                            Intent intent = new Intent(LoginActivity.this, MajorActivity.class);
+                            intent.putExtra("user",usn);
                             startActivity(intent);
-                        }else{
-                            Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                        } else {
+                            String message = response.optString("message");
+                            Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                         }
-                    }else{
-                        Toast.makeText(LoginActivity.this, "", Toast.LENGTH_SHORT).show();
+
                     }
-                }
+                }, new DefaultErrorListener() {
+                    @Override
+                    protected void onErrorResponseFailed(String errorMesg, VolleyError volleyError) {
+                        Toast.makeText(LoginActivity.this, errorMesg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
 
 
             }

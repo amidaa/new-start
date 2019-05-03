@@ -1,34 +1,17 @@
 package zhang.feng.com.eatwhat.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
-import android.widget.TabHost;
-import android.widget.TextView;
 
 import com.youth.banner.Banner;
-import com.youth.banner.Transformer;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import zhang.feng.com.eatwhat.ParticularsActivity;
-import zhang.feng.com.eatwhat.banner.GlideImageLoader;
+import androidx.fragment.app.Fragment;
 import zhang.feng.com.eatwhat.R;
-import zhang.feng.com.eatwhat.goods.Article;
-import zhang.feng.com.eatwhat.goods.ArticleLab;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -105,29 +88,29 @@ public class NewsFragment extends Fragment {
         rg_tab.setOnCheckedChangeListener(new RadioGroupListener());
 
 
-        images = new ArrayList<>();
-        images.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
-        images.add("https://img03.sogoucdn.com/app/a/100520024/a052fe72d9c204e2770ef7b3d2e8d161");
-        images.add("https://img03.sogoucdn.com/app/a/100520024/39e5889e31170c0effe972f1e2468bd2");
-
-
-        //设置图片标题集合
-        imageTitles = new ArrayList<>();
-        imageTitles.add("aaa");
-        imageTitles.add("bbb");
-        imageTitles.add("ccc");
-
-
-        mBanner = (Banner)view.findViewById(R.id.head_banner);
-        //设置图片加载器
-        mBanner.setImageLoader(new GlideImageLoader());
-        //设置图片集合
-        mBanner.setImages(images);
-        //设置标题集合
-        mBanner.setBannerTitles(imageTitles);
-        //设置动画效果
-        mBanner.setBannerAnimation(Transformer.RotateDown);
-        mBanner.start();
+//        images = new ArrayList<>();
+//        images.add("http://47.112.28.145:8080/images/banner/lifestyledemo3.jpg");
+//        images.add("http://47.112.28.145:8080/images/banner/lifestyledemo6.jpg");
+//        images.add("http://47.112.28.145:8080/images/banner/lifestyledemo4.jpg");
+//
+//
+//        //设置图片标题集合
+//        imageTitles = new ArrayList<>();
+//        imageTitles.add("aaa");
+//        imageTitles.add("bbb");
+//        imageTitles.add("ccc");
+//
+//
+//        mBanner = (Banner)view.findViewById(R.id.head_banner);
+//        //设置图片加载器
+//        mBanner.setImageLoader(new GlideImageLoader());
+//        //设置图片集合
+//        mBanner.setImages(images);
+//        //设置标题集合
+//        mBanner.setBannerTitles(imageTitles);
+//        //设置动画效果
+//        mBanner.setBannerAnimation(Transformer.RotateDown);
+//        mBanner.start();
 
         return view;
     }
@@ -161,12 +144,6 @@ public class NewsFragment extends Fragment {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
 
-
-
-        WebView webView = (WebView)view.findViewById(R.id.web_view);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
     }
 
 }

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "zhang.feng.com.eatwhat"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -48,10 +48,10 @@ dependencies {
     implementation project(":vitamio")//引用vitamio第三方视频播放插件
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     implementation 'com.carson_ho:SearchLayout:1.0.1'//导入SearchLayout
-    implementation 'com.marshalchen.ultimaterecyclerview:library:0.7.3'//导入ultimaterecyclerview
     implementation 'com.zhuang:likeview:2.1'
     implementation 'jp.wasabeef:glide-transformations:2.0.1'
     implementation 'top.zibin:Luban:1.1.8'
     implementation project(path: ':lib-todaystepcounter')//鲁班图片压缩
     implementation 'com.zkk.view:ZkkRulerView:1.0.0'//实现标尺选择器的依赖
+    implementation 'com.google.code.gson:gson:2.4'//添加gson
 }

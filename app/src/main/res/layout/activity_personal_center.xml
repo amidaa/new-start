@@ -102,13 +102,21 @@
 
 
     <zhang.feng.com.eatwhat.customview.ItemView
-        android:id="@+id/p_goal"
+        android:id="@+id/p_illness_time"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:left_icon="@mipmap/goal"
-        app:left_text="@string/goal">
+        app:left_text="@string/illness_time">
 
     </zhang.feng.com.eatwhat.customview.ItemView>
 
+    <zhang.feng.com.eatwhat.customview.ItemView
+        android:id="@+id/p_exercise"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:left_icon="@mipmap/goal"
+        app:left_text="@string/exercise">
+
+    </zhang.feng.com.eatwhat.customview.ItemView>
 
 </LinearLayout>

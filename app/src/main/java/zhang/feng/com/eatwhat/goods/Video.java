@@ -1,65 +1,73 @@
 package zhang.feng.com.eatwhat.goods;
 
-import java.util.Date;
-import java.util.UUID;
-
 public class Video {
-    private UUID mVideoId;//视频编号
-    private String mVideoName;//视频名字
-    private Date mPostTime;//视频的发行时间
-    private String mVideoContent;//视频地址
-    private String mCoverImage;//视频封面图片
+    private Integer videoId;//视频编号
+    private String videoNameString;//视频名称
+    private String videoAuthor;//视频作者
+    private String videoDate;//视频发布时间
+    private String videoCover;//封面
+    private String videoUrl;//视频地址
 
-    public String getCoverImage() {
-        return mCoverImage;
-    }
 
-    public void setCoverImage(String coverImage) {
-        mCoverImage = coverImage;
-    }
-
-    public Video(String videoName, Date postTime, String videoContent, String coverImage) {
-        this.mVideoId = UUID.randomUUID();
-        mVideoName = videoName;
-        mPostTime = postTime;
-        mVideoContent = videoContent;
-        mCoverImage = coverImage;
-    }
 
     public Video() {
-        this.mVideoId = UUID.randomUUID();
+
     }
 
-    public UUID getVideoId() {
-        return mVideoId;
+    public Video(Integer videoId, String videoName, String videoAuthor, String videoDate, String videoCover, String videoUrl) {
+        this.videoId = videoId;
+        this.videoNameString = videoName;
+        this.videoAuthor = videoAuthor;
+        this.videoDate = videoDate;
+        this.videoCover = videoCover;
+        this.videoUrl = videoUrl;
     }
 
-    public void setVideoId(UUID videoId) {
-        mVideoId = videoId;
+    public Integer getVideoId() {
+        return videoId;
     }
 
-    public String getVideoName() {
-        return mVideoName;
+    public void setVideoId(Integer videoId) {
+        this.videoId = videoId;
     }
 
-    public void setVideoName(String videoName) {
-        mVideoName = videoName;
+    public String getVideoNameString() {
+        return videoNameString;
     }
 
-    public Date getPostTime() {
-        return mPostTime;
+    public void setVideoNameString(String videoNameString) {
+        this.videoNameString = videoNameString;
     }
 
-    public void setPostTime(Date postTime) {
-        mPostTime = postTime;
+    public String getVideoAuthor() {
+        return videoAuthor;
     }
 
-    public String getVideoContent() {
-        return mVideoContent;
+    public void setVideoAuthor(String videoAuthor) {
+        this.videoAuthor = videoAuthor;
     }
 
-    public void setVideoContent(String videoContent) {
-        mVideoContent = videoContent;
+    public String getVideoDate() {
+        return videoDate;
     }
 
+    public void setVideoDate(String videoDate) {
+        this.videoDate = videoDate;
+    }
+
+    public String getVideoCover() {
+        return videoCover;
+    }
+
+    public void setVideoCover(String videoCover) {
+        this.videoCover = videoCover;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
 }

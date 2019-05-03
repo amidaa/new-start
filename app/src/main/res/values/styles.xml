@@ -47,7 +47,7 @@
     </style>
 
     <style name="heart_rate_style" parent="@android:style/Widget.CompoundButton.RadioButton">
-        <item name="android:button">@drawable/heart_rate</item>
+        <item name="android:button">@drawable/heart_rate_bg</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@color/white</item>
         <item name="android:gravity">center</item>

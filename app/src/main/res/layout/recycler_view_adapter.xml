@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:id="@+id/itemview"
+    android:layout_marginTop="15dp">
+<!--食物名字-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/h_food_name"
+        android:textColor="@color/colorBottomNavigationAccent"
+        android:text="test2"/>
+
+    <!--食物照片-->
+    <ImageView
+        android:layout_marginTop="2dp"
+        android:layout_below="@id/h_food_name"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/imageview"
+        android:src="@drawable/jr1" />
+    <!--食物能量-->
+    <TextView
+        android:id="@+id/food_energy"
+        android:layout_width="100dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/imageview"
+        android:layout_marginLeft="5dp"
+        android:textSize="12sp"
+        android:textColor="@color/Coral"
+        android:layout_height="20dp" />
+    <!--食物重量-->
+    <TextView
+        android:id="@+id/food_weight"
+        android:layout_width="100dp"
+        android:layout_below="@id/food_energy"
+        android:layout_alignLeft="@id/food_energy"
+        android:layout_marginTop="15dp"
+        android:textSize="12sp"
+        android:textColor="@color/Coral"
+        android:layout_height="20dp" />
+    <!--食物用途-->
+    <TextView
+        android:id="@+id/food_use"
+        android:layout_width="100dp"
+        android:layout_below="@id/food_weight"
+        android:layout_alignLeft="@id/food_weight"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/Coral"
+        android:textSize="12sp"
+        android:layout_height="wrap_content" />
+    <!--适宜人群-->
+    <TextView
+        android:id="@+id/food_appropriate"
+        android:layout_width="100dp"
+        android:layout_below="@id/food_use"
+        android:layout_alignLeft="@id/food_use"
+        android:layout_marginTop="15dp"
+        android:textSize="12sp"
+        android:textColor="@color/Coral"
+        android:layout_height="wrap_content" />
+    <!--碳水化合物-->
+    <TextView
+        android:id="@+id/food_carbohydrate"
+        android:layout_width="100dp"
+        android:layout_alignTop="@+id/food_energy"
+        android:layout_toRightOf="@id/food_energy"
+        android:layout_marginLeft="10dp"
+        android:textSize="12sp"
+        android:textColor="@color/Coral"
+        android:layout_height="20dp" />
+    <!--脂肪-->
+    <TextView
+        android:id="@+id/food_fat"
+        android:layout_width="100dp"
+        android:layout_below="@id/food_carbohydrate"
+        android:layout_alignLeft="@id/food_carbohydrate"
+        android:layout_marginTop="15dp"
+        android:textSize="12sp"
+        android:textColor="@color/Coral"
+        android:layout_height="20dp" />
+    <!--蛋白质-->
+    <TextView
+        android:id="@+id/food_protein"
+        android:layout_width="100dp"
+        android:layout_below="@id/food_fat"
+        android:layout_alignLeft="@id/food_fat"
+        android:layout_marginTop="15dp"
+        android:textSize="12sp"
+        android:textColor="@color/Coral"
+        android:layout_height="20dp" />
+    <!--纤维素-->
+    <TextView
+        android:id="@+id/food_fibrin"
+        android:layout_width="100dp"
+        android:layout_below="@id/food_protein"
+        android:layout_alignLeft="@id/food_protein"
+        android:layout_marginTop="15dp"
+        android:textSize="12sp"
+        android:textColor="@color/Coral"
+        android:layout_height="20dp" />
+    <!--&lt;!&ndash;描述&ndash;&gt;-->
+    <!--<TextView-->
+        <!--android:id="@+id/food_describe"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="20dp" />-->
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:id="@+id/progressbar" android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

@@ -49,6 +49,9 @@ public class HomeFragmentController {
     public void showFragment(int position){
         hideFragments();
         Fragment fragment = fragments.get(position);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("key", "这是方法二");
+//        fragment.setArguments(bundle);
         FragmentTransaction ft = fm.beginTransaction();
         ft.show(fragment);
         ft.commitAllowingStateLoss();

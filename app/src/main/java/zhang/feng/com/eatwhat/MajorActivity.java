@@ -1,28 +1,9 @@
 package zhang.feng.com.eatwhat;
 
+import android.content.Intent;
 import android.graphics.Color;
-import androidx.annotation.NonNull;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import zhang.feng.com.eatwhat.fragment.ChatFragment;
-import zhang.feng.com.eatwhat.fragment.HomeFragment;
-import zhang.feng.com.eatwhat.fragment.MyFragmentAdapter;
-import zhang.feng.com.eatwhat.fragment.NewsFragment;
-
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -30,10 +11,20 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import zhang.feng.com.eatwhat.fragment.ChatFragment;
+import zhang.feng.com.eatwhat.fragment.HomeFragment;
+import zhang.feng.com.eatwhat.fragment.MyFragmentAdapter;
+import zhang.feng.com.eatwhat.fragment.NewsFragment;
+import zhang.feng.com.eatwhat.fragment.TestFragment;
+
 public class MajorActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
     private AHBottomNavigation bottomNavigation;
     private List<Fragment> fragments = new ArrayList<>();//四个界面
     private ViewPager viewPager;
+    private String username;
 
 
 
@@ -41,7 +32,8 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.major_layout);
-
+        Intent intent = getIntent();
+        username = intent.getStringExtra("user");
         addBottomItems();
     }
 
@@ -53,10 +45,10 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
 
 
         //添加元素
-        AHBottomNavigationItem everydaymeal = new AHBottomNavigationItem(R.string.everyday_meal,R.drawable.tab_1,R.color.little_blue);
-        AHBottomNavigationItem chatplace = new AHBottomNavigationItem(R.string.intelligent_test,R.drawable.tab_2,R.color.little_blue);
-        AHBottomNavigationItem news = new AHBottomNavigationItem(R.string.recommend,R.drawable.tab_3,R.color.little_blue);
-        AHBottomNavigationItem test = new AHBottomNavigationItem(R.string.chat_zone,R.drawable.tab_4,R.color.little_blue);
+        AHBottomNavigationItem everydaymeal = new AHBottomNavigationItem(R.string.everyday_meal,R.drawable.tabone,R.color.colorPrimary);
+        AHBottomNavigationItem chatplace = new AHBottomNavigationItem(R.string.intelligent_test,R.drawable.nature,R.color.colorPrimary);
+        AHBottomNavigationItem news = new AHBottomNavigationItem(R.string.recommend,R.drawable.sleep,R.color.white);
+        AHBottomNavigationItem test = new AHBottomNavigationItem(R.string.chat_zone,R.drawable.knoleage,R.color.white);
 
 
         //添加元素
@@ -76,13 +68,13 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
 //        bottomNavigation.manageFloatingActionButtonBehavior();
 
         //设置颜色变换,选中的图标着色以及文本的颜色
-        bottomNavigation.setAccentColor(Color.parseColor("#FFDEAD"));
+        bottomNavigation.setAccentColor(Color.parseColor("#CDCDB4"));
 //      未选中的图标着色及文本颜色
-        bottomNavigation.setInactiveColor(Color.parseColor("#54FF9F"));
+        bottomNavigation.setInactiveColor(Color.parseColor("#00CDCD"));
 
 
         //给drawable染色
-        bottomNavigation.setForceTint(true);
+        bottomNavigation.setForceTint(false);
 
         //在导航中展示颜色
         bottomNavigation.setTranslucentNavigationEnabled(true);
@@ -106,10 +98,15 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
         //
 
         Fragment homeFragment = new HomeFragment();
-        Fragment assessmentFragment = new ChatFragment();
+        Fragment assessmentFragment = new TestFragment();
         Fragment chatplceFragment = new ChatFragment();
         Fragment newsFragment = new NewsFragment();
+        Bundle bundle = new Bundle();
+        //往bundle中添加数据
+        bundle.putString("user", username);//传递用户姓名
 
+        // 步骤6:把数据设置到Fragment中
+        homeFragment.setArguments(bundle);
         //添加界面元素到列表
         fragments.add(homeFragment);//智能营养
         fragments.add(assessmentFragment);//测评

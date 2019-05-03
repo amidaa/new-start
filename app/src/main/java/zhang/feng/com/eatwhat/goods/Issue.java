@@ -1,69 +1,84 @@
 package zhang.feng.com.eatwhat.goods;
 
-import java.util.Date;
-import java.util.List;
-
 public class Issue {
-    private String mContent;//内容
-    private String mAuthor;//作者
-    private String mData;//发布时间
-    private String mSuspect;
-    private List<String> mPhotoPath;//图片的路径
+    private Integer personId;//用户id
+    private Integer serial_number;//序列号
+    private String date;//发布时间
+    private String content;//发表内容
+    private String img_paths;//图片地址
+    private String location;//定位
+    private String mood;//心情
+    private int view_number;//观看数
 
-    public String getSuspect() {
-        return mSuspect;
+    public Integer getSerial_number() {
+        return serial_number;
+    }
+    public void setSerial_number(Integer serial_number) {
+        this.serial_number = serial_number;
     }
 
-    public List<String> getPhotoPath() {
-        return mPhotoPath;
+    public String getDate() {
+        return date;
+    }
+    public void setDate(String date) {
+        this.date = date;
+    }
+    public String getContent() {
+        return content;
+    }
+    public void setContent(String content) {
+        this.content = content;
+    }
+    public String getImg_paths() {
+        return img_paths;
+    }
+    public void setImg_paths(String img_paths) {
+        this.img_paths = img_paths;
+    }
+    public String getLocation() {
+        return location;
+    }
+    public void setLocation(String location) {
+        this.location = location;
+    }
+    public String getMood() {
+        return mood;
+    }
+    public void setMood(String mood) {
+        this.mood = mood;
     }
 
-    public void setPhotoPath(List<String> photoPath) {
-        mPhotoPath = photoPath;
+    public Integer getPersonId() {
+        return personId;
     }
 
-    public Issue(){
-
-    }
-    public Issue(String mContent, String mAuthor, String mData,String suspect,List<String> photoPath) {
-        this.mContent = mContent;
-        this.mAuthor = mAuthor;
-        this.mData = mData;
-        this.mSuspect = suspect;
-        this.mPhotoPath = photoPath;
-    }
-    public String getmContent() {
-        return mContent;
+    public void setPersonId(Integer personId) {
+        this.personId = personId;
     }
 
-    public String getmAuthor() {
-        return mAuthor;
+    public Issue(Integer personId, Integer serial_number, String date, String content, String img_paths, String location, String mood, int view_number) {
+        this.personId = personId;
+        this.serial_number = serial_number;
+        this.date = date;
+        this.content = content;
+        this.img_paths = img_paths;
+        this.location = location;
+        this.mood = mood;
+        this.view_number = view_number;
     }
 
-    public String getmData() {
-        return mData;
+    public Issue() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+    public int getView_number() {
+        return view_number;
+    }
+    public void setView_number(int view_number) {
+        this.view_number = view_number;
     }
 
 
 
-    public void setmContent(String mContent) {
-        this.mContent = mContent;
-    }
-
-    public void setmAuthor(String mAuthor) {
-        this.mAuthor = mAuthor;
-    }
-
-    public void setmData(String mData) {
-        this.mData = mData;
-    }
-
-    public void setSuspect(String suspect){
-        mSuspect = suspect;
-    }
-
-    public String getPhotoFilename(){
-        return "IMG_"+getmAuthor()+".jpg";
-    }
 
 }

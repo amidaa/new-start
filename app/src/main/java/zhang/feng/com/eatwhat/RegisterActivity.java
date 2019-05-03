@@ -1,31 +1,26 @@
 package zhang.feng.com.eatwhat;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import zhang.feng.com.eatwhat.volleyopr.DefaultErrorListener;
-import zhang.feng.com.eatwhat.volleyopr.DefaultListener;
-import zhang.feng.com.eatwhat.volleyopr.VolleyHttpApi;
-
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import zhang.feng.com.eatwhat.volleyopr.DefaultJsonListener;
+import zhang.feng.com.eatwhat.volleyopr.VolleyHttpApi;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    int DEFAULT_TIMEOUT_MS = 10000;
+    int DEFAULT_MAX_RETRIES = 3;
     private VolleyHttpApi volleyHttp;//实现网络请求
     private final String tag="REGISTER";
     private EditText username;//姓名
@@ -35,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Context mContext;//
     private Button affirm;//确定按钮
     private Button cancel;//取消按钮
+    private String url = "http://47.112.28.145:8090/demo";
 //    private androidx.appcompat.widget.Toolbar back_toolbar;//带有返回按钮的toolBar
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,17 +77,23 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this,"两次密码输入不一致！",Toast.LENGTH_SHORT).show();
                 }else{
 
-                    HashMap<String, String> map = new HashMap<>();
-                    map.put("username", name);
-                    map.put("password", psw);
-                    volleyHttp.getAppSysUserController(tag, mContext, map, new DefaultListener<String>() {
+
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("username",name);
+                        jsonObject.put("password",psw);
+                        jsonObject.put("nickname",nick_name);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    volleyHttp.addAppUserController(mContext, jsonObject, new DefaultJsonListener<JSONObject>() {
                         @Override
                         public void onSuccess(int code, String data) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(data);
-                                String dept = jsonObject.optString("dept");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            if(code==1&&data.equals("1")){
+                                Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(RegisterActivity.this,data,Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -99,12 +101,34 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onResponseFailed(int code, String errorMsg, Exception e) {
                             Toast.makeText(RegisterActivity.this,errorMsg,Toast.LENGTH_SHORT).show();
                         }
-                    }, new DefaultErrorListener() {
-                        @Override
-                        protected void onErrorResponseFailed(String errorMesg, VolleyError volleyError) {
-                            Toast.makeText(RegisterActivity.this,errorMesg,Toast.LENGTH_SHORT).show();
-                        }
                     });
+
+//                    HashMap<String, String> map = new HashMap<>();
+//                    map.put("username", name);
+//                    map.put("password", psw);
+//                    map.put("nickname",nick_name);
+//                    volleyHttp.getAppSysUserController(tag, mContext, map, new DefaultListener<String>() {
+//                        @Override
+//                        public void onSuccess(int code, String data) {
+//                            Toast.makeText(RegisterActivity.this,data,Toast.LENGTH_SHORT).show();
+//                            if(data!=null&&data.equals("1")){
+//                                Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+//                            }
+//
+//                        }
+
+//
+//
+//                        @Override
+//                        public void onResponseFailed(int code, String errorMsg, Exception e) {
+//                            Toast.makeText(RegisterActivity.this,errorMsg,Toast.LENGTH_SHORT).show();
+//                        }
+//                    }, new DefaultErrorListener() {
+//                        @Override
+//                        protected void onErrorResponseFailed(String errorMesg, VolleyError volleyError) {
+//                            Toast.makeText(RegisterActivity.this,errorMesg,Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
 
 //                    Users users = new Users();
 //                    users.setUsername(name);
@@ -112,6 +136,9 @@ public class RegisterActivity extends AppCompatActivity {
 //                    users.setAge(20);
 //                    users.setSex("M");
 //                    users.save();
+
+
+
                 }
 
             }
@@ -168,4 +195,6 @@ public class RegisterActivity extends AppCompatActivity {
 //                });
 //        requestQueue.add(jsonObjectRequest);
 //    }
+
+
 }

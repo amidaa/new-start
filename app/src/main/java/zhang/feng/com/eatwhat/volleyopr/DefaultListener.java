@@ -11,16 +11,10 @@ public abstract class DefaultListener<T> implements Response.Listener<String> {
 
         try {
             JSONObject jsonObject = new JSONObject(response);
-            String code = jsonObject.optString("retcode");
+            String data = jsonObject.optString("message");
             String msg = "";
-            if (code.equals("0")) {
-                String data = "";
-                if (jsonObject.has("data")) {
-                    data = jsonObject.optString("data");
+            if (data.equals("1")) {
                     onSuccess(0, data);
-                } else {
-                    onSuccess(0, "");
-                }
             } else {
                 if (jsonObject.has("mesg")) {
                     msg = jsonObject.optString("mesg");

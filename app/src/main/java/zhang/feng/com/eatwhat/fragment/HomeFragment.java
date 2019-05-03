@@ -2,15 +2,9 @@ package zhang.feng.com.eatwhat.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,23 +12,43 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.youth.banner.Banner;
 import com.youth.banner.Transformer;
 
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import de.hdodenhof.circleimageview.CircleImageView;
 import zhang.feng.com.eatwhat.PersonalCenterActivity;
 import zhang.feng.com.eatwhat.QuestionActivity;
 import zhang.feng.com.eatwhat.R;
 import zhang.feng.com.eatwhat.RecommendActivity;
 import zhang.feng.com.eatwhat.SearchActivity;
 import zhang.feng.com.eatwhat.SettingsActivity;
+import zhang.feng.com.eatwhat.Users;
 import zhang.feng.com.eatwhat.banner.GlideImageLoader;
 import zhang.feng.com.eatwhat.dialog.CustomDialog;
+import zhang.feng.com.eatwhat.volleyopr.DefaultErrorListener;
+import zhang.feng.com.eatwhat.volleyopr.VolleyHttpApi;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +65,7 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String mUsername;
     private String mParam2;
     private androidx.drawerlayout.widget.DrawerLayout mDrawerLayout;
 
@@ -64,6 +78,14 @@ public class HomeFragment extends Fragment {
     private List<String> images;//图片
     private List<String> imageTitles;//图片名字
     private Banner mBanner;//banner
+    private static String URL="http://47.112.28.145:8090/demo/";
+    private static String BODYURL = "http://47.112.28.145:8090/bodyinfoApi/findBodyInformation/";
+
+
+    private VolleyHttpApi mVolleyHttpApi;//网络请求
+    private Integer hostid;//用户编号
+
+    private SharedPreferences mRememberPreferences=null;//存储用户id
 
 
     private OnFragmentInteractionListener mListener;
@@ -94,8 +116,9 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);//显示menu
+        mVolleyHttpApi = VolleyHttpApi.getInstance();
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mUsername = getArguments().getString("user");
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -146,12 +169,6 @@ public class HomeFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Snackbar.make(v,"Data delete",Snackbar.LENGTH_SHORT).setAction("Undo", new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Toast.makeText(getActivity(),"Data restored",Toast.LENGTH_SHORT).show();
-//                    }
-//                }).show();
 
                 Intent recommend_intent = new Intent(getActivity(), RecommendActivity.class);
                 startActivity(recommend_intent);
@@ -161,6 +178,33 @@ public class HomeFragment extends Fragment {
         //侧滑栏的设置
         mDrawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView)view.findViewById(R.id.nav_view);
+        navigationView.inflateHeaderView(R.layout.nav_header
+        );//设置头部控件
+        navigationView.inflateMenu(R.menu.nav_menu_xml);//设置Menu
+
+
+        View headerView = navigationView.getHeaderView(0);//获取头部布局文件
+        CircleImageView circleImageView = (CircleImageView)headerView.findViewById(R.id.icon_image);//获取头像控件
+        final TextView nickNameText = (TextView)headerView.findViewById(R.id.nickname);//获取昵称控件
+        TextView sexText = (TextView)headerView.findViewById(R.id.sex);//获取性别控件
+        getInformation(new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                String str= result.optString("user");
+                Type listType = new TypeToken<Users>(){}.getType();
+                Gson gson = new Gson();
+               Users hostUser = gson.fromJson(str, listType);//将json字符串通过gson转化为对应的对象
+                nickNameText.setText(hostUser.getNickname());
+                hostid = hostUser.getId();
+                mRememberPreferences =getActivity().getSharedPreferences("USER",MODE_PRIVATE);//私有数据，只能被应用本身访问
+                SharedPreferences.Editor editor = mRememberPreferences.edit();
+                editor.putInt("hostid", hostid);//记录保存用户id
+                editor.putString("username",mUsername);
+                editor.putString("nickname",hostUser.getNickname());//记录保存用户昵称
+                editor.commit();//提交
+            }
+        });
+
 
         navigationView.setCheckedItem(R.id.nav_personal_center);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -208,9 +252,9 @@ public class HomeFragment extends Fragment {
 
 
         images = new ArrayList<>();
-        images.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
-        images.add("https://img03.sogoucdn.com/app/a/100520024/a052fe72d9c204e2770ef7b3d2e8d161");
-        images.add("https://img03.sogoucdn.com/app/a/100520024/39e5889e31170c0effe972f1e2468bd2");
+        images.add("http://47.112.28.145:8080/images/banner/lifestyledemo3.jpg");
+        images.add("http://47.112.28.145:8080/images/banner/lifestyledemo2.jpg");
+        images.add("http://47.112.28.145:8080/images/banner/lifestyledemo6.jpg");
 
 
         //设置图片标题集合
@@ -343,18 +387,56 @@ public class HomeFragment extends Fragment {
 
     public void showDialog(){
         //点击弹出对话框
-        final CustomDialog customDialog = new CustomDialog(getActivity());
-        customDialog.setTitle("信息完善");
-        customDialog.setMessage("请完善您的相关信息，以便我们好为您接下来的饮食进行更加合理的规划");
-        customDialog.setYesOnclickListener("确定", new CustomDialog.onYesOnclickListener() {
+        String url = BODYURL+hostid;
+        mVolleyHttpApi.UserInfoController(url, getActivity(), new Response.Listener<JSONObject>() {
             @Override
-            public void onYesClick() {
-                customDialog.dismiss();
-                Intent intent = new Intent(getActivity(), QuestionActivity.class);
-                startActivity(intent);
+            public void onResponse(JSONObject response) {
+                JSONObject jsonObject = response.optJSONObject("message");
+                if(jsonObject!=null){
+                    final CustomDialog customDialog = new CustomDialog(getActivity());
+                    customDialog.setTitle("信息完善");
+                    customDialog.setMessage("请完善您的相关信息，以便我们好为您接下来的饮食进行更加合理的规划");
+                    customDialog.setYesOnclickListener("确定", new CustomDialog.onYesOnclickListener() {
+                        @Override
+                        public void onYesClick() {
+                            customDialog.dismiss();
+                            Intent intent = new Intent(getActivity(), QuestionActivity.class);
+                            intent.putExtra("hostid",hostid);
+                            startActivity(intent);
+                        }
+                    });
+                    customDialog.show();
+                }
+
+            }
+        }, new DefaultErrorListener() {
+            @Override
+            protected void onErrorResponseFailed(String errorMesg, VolleyError volleyError) {
+
             }
         });
-        customDialog.show();
+
+
+    }
+
+    public void getInformation(final VolleyCallback volleyCallback){
+        mVolleyHttpApi = VolleyHttpApi.getInstance();
+        mVolleyHttpApi.UserInfoController(URL + mUsername, getActivity(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                volleyCallback.onSuccess(response);
+            }
+        }, new DefaultErrorListener() {
+            @Override
+            protected void onErrorResponseFailed(String errorMesg, VolleyError volleyError) {
+                Toast.makeText(getActivity(), errorMesg+"nickname", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public interface VolleyCallback {
+        void onSuccess(JSONObject result);
 
     }
 

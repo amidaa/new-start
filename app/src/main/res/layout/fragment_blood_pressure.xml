@@ -3,30 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/heartgloss"
     tools:context=".fragment.BloodPressureFragment">
 
     <!--血压计测量-->
-    <Button
+    <ImageButton
         android:id="@+id/sphygmomanometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="10px"
         android:layout_marginBottom="10px"
-        android:background="@color/transparent"
-        android:textColor="@color/Coral"
-        android:text="@string/sphygmomanometer"/>
+        android:background="@null"
+        android:src="@drawable/testblood"/>
     <!--手动输入-->
-    <Button
+    <ImageButton
         android:id="@+id/by_hand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/sphygmomanometer"
-        android:background="@color/transparent"
-        android:textColor="@color/Coral"
-        android:text="@string/write_by_hand"/>
+        android:background="@null"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/pen"/>
     <RelativeLayout
         android:id="@+id/show_content"
         android:layout_width="wrap_content"
@@ -49,7 +49,9 @@
             android:layout_below="@+id/high_pressure_img"
             android:layout_alignLeft="@+id/high_pressure_img"
             android:visibility="visible"
-            android:text="@string/high_pressure"/>
+            android:text="@string/high_pressure"
+            android:textSize="20dp"
+            android:textColor="@color/colorBottomNavigationPrimary"/>
         <!--低压值-->
         <ImageView
             android:id="@+id/low_pressure_img"
@@ -66,7 +68,9 @@
             android:layout_below="@+id/low_pressure_img"
             android:visibility="visible"
             android:layout_alignLeft="@+id/low_pressure_img"
-            android:text="@string/low_pressure"/>
+            android:text="@string/low_pressure"
+            android:textSize="20dp"
+            android:textColor="@color/colorBottomNavigationPrimary"/>
     </RelativeLayout>
     <EditText
         android:id="@+id/write_high"

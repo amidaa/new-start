@@ -8,6 +8,7 @@ import java.util.Date;
 public class DataUtil {
 
     public String simpleDateYMD(Date date){
+
         String mydate="2019-3-4";
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

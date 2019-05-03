@@ -48,6 +48,8 @@
     <string name="setting">设置</string>
     <string name="personalcenter">个人中心</string>
     <string name="goal">我的计划</string>
+    <string name="illness_time">患病时间</string>
+    <string name="exercise">运动频率</string>
     <string name="personal_talk">悄悄话</string>
     <string name="friends">我的朋友</string>
 

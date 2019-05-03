@@ -1,19 +1,8 @@
 package zhang.feng.com.eatwhat;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.FileProvider;
-import androidx.core.view.GravityCompat;
-import top.zibin.luban.CompressionPredicate;
-import top.zibin.luban.Luban;
-import top.zibin.luban.OnCompressListener;
-import zhang.feng.com.eatwhat.adapter.GridViewAddImageAdapter;
-import zhang.feng.com.eatwhat.goods.ChatLab;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,17 +18,33 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
+import top.zibin.luban.CompressionPredicate;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
+import zhang.feng.com.eatwhat.acache.ACache;
+import zhang.feng.com.eatwhat.adapter.GridViewAddImageAdapter;
+import zhang.feng.com.eatwhat.util.DataUtil;
+import zhang.feng.com.eatwhat.volleyopr.DefaultErrorListener;
+import zhang.feng.com.eatwhat.volleyopr.VolleyHttpApi;
 
 public class PublishActivity extends AppCompatActivity {
     public static final int TAKE_PHOTO = 1;//拍照
@@ -47,12 +52,29 @@ public class PublishActivity extends AppCompatActivity {
     private EditText mCharacterEditText;//发布的文字内容
     private ImageButton mPhotoButton;//拍照按钮
     private File mPhotoFile;//照片文件
-    private Uri mImageUri;//图片存储路径
     private GridView gw;
-    private List<Map<String,Object>> datas;
+    private ImageButton faceImage;
+    private ImageButton noImage;
+    private ImageButton smileImage;
+    private ImageButton daiImage;
+    private ImageButton failImage;
+    private ImageButton successImage;
+    private ImageButton funnyImage;
+    private Integer hostId;//账号
+    private String content;//输入的内容
+    private String imagepath="";//图片名字
+
+    private String mood = "";//心情
+    private List<Map<String,Object>> datas;//图片地址的所有信息
     private GridViewAddImageAdapter mGridViewAddImageAdapter;
     private final String IMAGE_DIR = Environment.getExternalStorageDirectory()+"/";
     private final String PHOTO_FILE_NAME = "temp_photo.jpg";
+
+    private VolleyHttpApi mVolleyHttpApi;//网络通信接口
+    private String HOST="http://47.112.28.145:8090/ConditionApi";//接口地址
+
+
+    private SharedPreferences mRememberPreferences=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +82,94 @@ public class PublishActivity extends AppCompatActivity {
         setContentView(R.layout.activity_publish);
 
         gw = (GridView)findViewById(R.id.my_photos);
+
+        faceImage = (ImageButton)findViewById(R.id.the_face);
+        noImage = (ImageButton)findViewById(R.id.the_nocart);
+        smileImage = (ImageButton)findViewById(R.id.the_smile);
+        daiImage = (ImageButton)findViewById(R.id.the_scary);
+        failImage = (ImageButton)findViewById(R.id.the_fail);
+        successImage = (ImageButton)findViewById(R.id.the_success);
+        funnyImage = (ImageButton)findViewById(R.id.the_funny);
+
+        faceImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((ImageButton) v).setImageResource(R.drawable.face_activite);
+                mood = "LONELY";
+
+            }
+        });
+
+        noImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((ImageButton) v).setImageResource(R.drawable.nochaer_active);
+                mood = "AMAZE";
+
+            }
+        });
+
+        smileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((ImageButton) v).setImageResource(R.drawable.smile_activy);
+                mood = "HAPPY";
+
+            }
+        });
+
+        daiImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((ImageButton) v).setImageResource(R.drawable.dai_active);
+                mood = "SLEEPY";
+
+            }
+        });
+
+        failImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((ImageButton) v).setImageResource(R.drawable.fail_activity);
+                mood = "SAD";
+
+            }
+        });
+
+        successImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((ImageButton) v).setImageResource(R.drawable.success_active);
+                mood = "ADMIRING";
+
+            }
+        });
+        funnyImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((ImageButton) v).setImageResource(R.drawable.funny_active);
+                mood = "OVERWHELMED";
+
+            }
+        });
+
+
         datas = new ArrayList<>();
         mGridViewAddImageAdapter = new GridViewAddImageAdapter(datas,this);
         gw.setAdapter(mGridViewAddImageAdapter);
+
+        mRememberPreferences =this.getSharedPreferences("USER",MODE_PRIVATE);//私有数据，只能被应用
+        hostId = mRememberPreferences.getInt("hostid",10000);
+
+
+        mVolleyHttpApi = VolleyHttpApi.getInstance();
 
 
         gw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -74,7 +181,7 @@ public class PublishActivity extends AppCompatActivity {
         });
 
 
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar)findViewById(R.id.publish_toolbar);
+        final androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar)findViewById(R.id.publish_toolbar);
 //        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         toolbar.inflateMenu(R.menu.pl_toolbar);
@@ -92,6 +199,58 @@ public class PublishActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.launch:
+                        ACache mCache = ACache.get(PublishActivity.this);
+                        content = mCharacterEditText.getText().toString();//填写内容
+
+
+
+
+                        JSONObject information = new JSONObject();
+                        try {
+                            Random ran =new Random(System.currentTimeMillis());
+                            DataUtil dataUtil = new DataUtil();
+                            information.put("personid",hostId);
+                            information.put("serial_number",ran.nextInt(100));
+                            information.put("content",content);
+                            information.put("img_paths",imagepath);
+                            information.put("date",dataUtil.simpleDateYMD(new Date()));
+                            information.put("location","");
+                            information.put("mood",mood);
+                            information.put("view_number",2);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        mCache.put(hostId+"condtion",information.toString(), 2 * ACache.TIME_DAY);//使用ASimpleCache缓存到本地
+                        mVolleyHttpApi.putInformationController(HOST, PublishActivity.this, information, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                if(response.optString("condition")!=null){
+                                }else {
+                                    Toast.makeText(PublishActivity.this,"网络开小差啦，请稍后重试", Toast.LENGTH_SHORT).show();
+                                }
+
+
+
+                            }
+                        }, new DefaultErrorListener() {
+                            @Override
+                            protected void onErrorResponseFailed(String errorMesg, VolleyError volleyError) {
+                                Toast.makeText(PublishActivity.this,errorMesg, Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+                       JSONObject images = new JSONObject();
+                        try {
+                            images.put("images",datas);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        mCache.put("imagescache",images,2 * ACache.TIME_DAY);
 
                         //保存现场
                         finish();
@@ -148,7 +307,7 @@ public class PublishActivity extends AppCompatActivity {
 
                     if (mPhotoFile != null) {
                         uploadImage(mPhotoFile);
-                        Toast.makeText(this, mPhotoFile.getPath(), Toast.LENGTH_SHORT).show();
+                        imagepath += mPhotoFile.getName()+"#";
                     } else {
                         Toast.makeText(this, "相机异常请稍后再试！", Toast.LENGTH_SHORT).show();
 
@@ -169,6 +328,7 @@ public class PublishActivity extends AppCompatActivity {
                                 String path = cursor.getString(column_index);
                                 File f = new File(path);
                                 uploadImage(f);
+                                imagepath += f.getName()+"#";
                             }
                             cursor.close();
                         }
@@ -248,5 +408,6 @@ public class PublishActivity extends AppCompatActivity {
         datas.add(map);
         mGridViewAddImageAdapter.notifyDataSetChanged();
     }
+
 
 }

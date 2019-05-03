@@ -2,16 +2,15 @@ package zhang.feng.com.eatwhat.fragment;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import zhang.feng.com.eatwhat.R;
 
 /**
@@ -28,8 +27,8 @@ public class HeartRateFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Button mSphygmomanometer_heartButton;//仪器测量
-    private Button mHeartHand;//手动输入
+    private ImageButton mSphygmomanometer_heartButton;//仪器测量
+    private ImageButton mHeartHand;//手动输入
     private Button mConfirmButton;//确认
     private TextView mHeartText;//显示的心率数据
     private EditText mWriteEditText;//手动输入心率数据
@@ -71,10 +70,10 @@ public class HeartRateFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_heart_rate, container, false);
-        mSphygmomanometer_heartButton = (Button)view.findViewById(R.id.sphygmomanometer_heart);
+        mSphygmomanometer_heartButton = (ImageButton) view.findViewById(R.id.sphygmomanometer_heart);
         mConfirmButton = (Button)view.findViewById(R.id.heart_rate_confirm);
         mWriteEditText = (EditText)view.findViewById(R.id.heart_rate_write);
-        mHeartHand = (Button)view.findViewById(R.id.by_hand_heart);
+        mHeartHand = (ImageButton) view.findViewById(R.id.by_hand_heart);
         mHeartText = (TextView)view.findViewById(R.id.heart_rate_info);
         doWrite();
         return view;

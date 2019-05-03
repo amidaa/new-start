@@ -2,7 +2,6 @@ package zhang.feng.com.eatwhat.vitamiovideo;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -13,47 +12,36 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.zip.Inflater;
-
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 import zhang.feng.com.eatwhat.R;
-import zhang.feng.com.eatwhat.goods.Video;
 
 public class MyMediaController extends MediaController {
 
-    private GestureDetector mGestureDetector;//手势检测
+    private GestureDetector mGestureDetector;
     private ImageButton img_back;//返回键
-    private ImageView img_battery;//电池电量显示
-    private TextView textView_time;//时间提示
-    private TextView textView_Battery;//文字显示电池
-    private VideoView mVideoView;
-    private Activity mActivity;
-    private Context mContext;
+    private ImageView img_Battery;//电池电量显示
+    private TextView textViewTime;//时间提示
+    private TextView textViewBattery;//文字显示电池
+    private VideoView videoView;
+    private Activity activity;
+    private Context context;
     private int controllerWidth = 0;//设置mediaController高度为了使横屏时top显示在屏幕顶端
 
     //返回监听
-    private View.OnClickListener backListener = new View.OnClickListener(){
-        public void onClick(View view){
-            if(mActivity != null){
-                mActivity.finish();
+    private View.OnClickListener backListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            if(activity != null){
+                activity.finish();
             }
         }
-
     };
-
-
-
-    public MyMediaController(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
     //videoview 用于对视频进行控制的等，activity为了退出
     public MyMediaController(Context context, VideoView videoView , Activity activity) {
         super(context);
-        this.mContext = context;
-        this.mVideoView = videoView;
-        this.mActivity = activity;
+        this.context = context;
+        this.videoView = videoView;
+        this.activity = activity;
         WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
         controllerWidth = wm.getDefaultDisplay().getWidth();
@@ -64,11 +52,11 @@ public class MyMediaController extends MediaController {
     protected View makeControllerView() {
         View v = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(getResources().getIdentifier("videoplaycontroller", "layout", getContext().getPackageName()), this);
         v.setMinimumHeight(controllerWidth);
-        img_back = (ImageButton) v.findViewById(R.id.mediacontroller_top_back);
-        img_battery = (ImageView) v.findViewById(R.id.mediacontroller_imgBattery);
+        img_back = (ImageButton) v.findViewById(getResources().getIdentifier("mediacontroller_top_back", "id", context.getPackageName()));
+        img_Battery = (ImageView) v.findViewById(getResources().getIdentifier("mediacontroller_imgBattery", "id", context.getPackageName()));
         img_back.setOnClickListener(backListener);
-        textView_Battery = (TextView)v.findViewById(R.id.mediacontroller_Battery);
-        textView_time = (TextView)v.findViewById(R.id.mediacontroller_time);
+        textViewBattery = (TextView)v.findViewById(getResources().getIdentifier("mediacontroller_Battery", "id", context.getPackageName()));
+        textViewTime = (TextView)v.findViewById(getResources().getIdentifier("mediacontroller_time", "id", context.getPackageName()));
 
         return v;
 
@@ -124,21 +112,19 @@ public class MyMediaController extends MediaController {
 
 
     public void setTime(String time){
-        if (textView_time != null)
-            textView_time.setText(time);
+        if (textViewTime != null)
+            textViewTime.setText(time);
     }
     //显示电量，
     public void setBattery(String stringBattery){
-        if(textView_time != null && img_battery != null){
-            textView_Battery.setText( stringBattery + "%");
-//            int battery = Integer.valueOf(stringBattery);
-//            if(battery < 15)img_battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_15));
-//            if(battery < 30 && battery >= 15)img_battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_15));
-//            if(battery < 45 && battery >= 30)img_battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_30));
-//            if(battery < 60 && battery >= 45)img_battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_45));
-//            if(battery < 75 && battery >= 60)img_battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_60));
-//            if(battery < 90 && battery >= 75)img_battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_75));
-//            if(battery > 90 )img_battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_90));
+        if(textViewTime != null && img_Battery != null){
+            textViewBattery.setText( stringBattery + "%");
+            int battery = Integer.valueOf(stringBattery);
+            if(battery < 20)img_Battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_0));
+            if(battery < 40 && battery >= 20)img_Battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_1));
+            if(battery < 60 && battery >= 40)img_Battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_2));
+            if(battery < 80 && battery >= 60)img_Battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_3));
+            if(battery > 80 )img_Battery.setImageDrawable(getResources().getDrawable(R.drawable.battery_4));
         }
     }
     //隐藏/显示
@@ -151,11 +137,11 @@ public class MyMediaController extends MediaController {
     }
     //播放与暂停
     private void playOrPause() {
-        if (mVideoView != null)
-            if (mVideoView.isPlaying()) {
-                mVideoView.pause();
+        if (videoView != null)
+            if (videoView.isPlaying()) {
+                videoView.pause();
             } else {
-                mVideoView.start();
+                videoView.start();
             }
     }
 }
