@@ -3,15 +3,18 @@ package zhang.feng.com.eatwhat.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
@@ -53,6 +56,7 @@ public class DinnerFragment extends Fragment {
     private RecyclerView mDinnerRecyclerView;
     private List<Breakfast> mDinnerFood;
     private static String HOST = "http://47.112.28.145:8090/MealApi/findType/dinner&type=";
+    private String IMAGEPATH="http://47.112.28.145:8080/images/foodimage/";
     private FoodHttpApi mFoodHttpApi;
 
 
@@ -205,6 +209,10 @@ public class DinnerFragment extends Fragment {
         protected void convert(BaseViewHolder helper, Breakfast item) {
 
             helper.setText(R.id.food_name,item.getFoodname()).setText(R.id.per_content,item.getWeight()+"g").setText(R.id.energy, item.getEnergy()+"kcal");
+            ImageView imageView = helper.getView(R.id.serial_number);
+            String imagePath = IMAGEPATH + item.getImage_path();
+            Uri uri = Uri.parse(imagePath);
+            Glide.with(getActivity()).load(uri).into(imageView);
         }
         //点击事件
 

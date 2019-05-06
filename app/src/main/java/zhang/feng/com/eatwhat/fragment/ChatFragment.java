@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhuang.likeviewlibrary.LikeView;
@@ -31,7 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -127,7 +125,10 @@ public class ChatFragment extends Fragment {
 
         public void bind(Issue issue) {
             mIssue = issue;
-//            mAuthorTextView.setText(mIssue.getPersonId());
+            if(String.valueOf(mIssue.getPersonid())!=null){
+                mAuthorTextView.setText("用户"+mIssue.getPersonid());
+            }
+
             if (mIssue.getDate() != null) {
                 mDateTextView.setText(mIssue.getDate().substring(0, 10));
             } else {
@@ -343,28 +344,27 @@ public class ChatFragment extends Fragment {
         super.onResume();
 
 
-        String conditionstr = "";
-        ACache aCache = ACache.get(getActivity());
-        conditionstr = aCache.getAsString("conditions");
-
-        if (conditions==null) {
-            Type listType = new TypeToken<ArrayList<Issue>>() {
-            }.getType();
-            Gson gson = new Gson();
-            conditions = gson.fromJson(conditionstr, listType);//将json字符串通过gson转化为对应的列表
-        }
+//        String conditionstr = "";
+//        ACache aCache = ACache.get(getActivity());
+//        conditionstr = aCache.getAsString("conditions");
+//
+//        if (conditions==null) {
+//            Type listType = new TypeToken<ArrayList<Issue>>() {
+//            }.getType();
+//            Gson gson = new Gson();
+//            conditions = gson.fromJson(conditionstr, listType);//将json字符串通过gson转化为对应的列表
+//        }
 
         ACache mACache = ACache.get(getActivity());
         String issuestr = mACache.getAsString(hostId+"condtion");
         Gson gson = new Gson();
         Issue issue =  gson.fromJson(issuestr,Issue.class);
         if(issue!=null&&mAdapter!=null) {
-            if(issue.getSerial_number()!=conditions.get(conditions.size()-1).getSerial_number()){
+
+           if(issue.getSerial_number()!=conditions.get(conditions.size()-1).getSerial_number()){
                 conditions.add(0,issue);//将新添加的数放到第一个位置
                 mAdapter.notifyDataSetChanged();
-            }
-
-
+           }
         }
 
     }
@@ -519,35 +519,29 @@ public class ChatFragment extends Fragment {
                 viewHolder = (MyViewHolder)convertView.getTag();
             }
             if(datas!=null && position<datas.size()){
-                if(position==0){
-                    ACache mACache = ACache.get(getActivity());
-                    JSONObject jsonObject = mACache.getAsJSONObject("imagescache");
-                    if(jsonObject!=null){
-                        String fileimage = jsonObject.optString("imagescache");
-                        Type listType = new TypeToken<List<Map<String,Object>>>() {
-                        }.getType();
-                        Gson gson = new Gson();
-                        conditions = gson.fromJson(fileimage, listType);//将json字符串通过gson转化为对应的对象
-                        final File file = new File(datas.get(position).get("path").toString());
+//                if(position==0){
+////                    ACache mACache = ACache.get(getActivity());
+////                    JSONObject jsonObject = mACache.getAsJSONObject("imagescache");
+////                    if(jsonObject!=null){
+////                        String fileimage = jsonObject.optString("imagescache");
+////                        Type listType = new TypeToken<List<Map<String,Object>>>() {
+////                        }.getType();
+////                        Gson gson = new Gson();
+////                        conditions = gson.fromJson(fileimage, listType);//将json字符串通过gson转化为对应的对象
+//                    final File file = new File(datas.get(position).get("path").toString());
+//
+//                    Glide.with(mContext).load(file).priority(Priority.HIGH).into(((MyViewHolder) viewHolder).ivImage);
+//                    ((MyViewHolder) viewHolder).ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
+//                    ((MyViewHolder) viewHolder).ivImage.setVisibility(View.VISIBLE);
+//
+//                }
+                /**获取网络图片**/
 
-                        Glide.with(mContext).load(file).priority(Priority.HIGH).into(((MyViewHolder) viewHolder).ivImage);
-                        ((MyViewHolder) viewHolder).ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
-                        ((MyViewHolder) viewHolder).ivImage.setVisibility(View.VISIBLE);
+                String imagePath = IMAGE + datas.get(position).get("path").toString();
+                Uri uri = Uri.parse(imagePath);
+                Glide.with(mContext).load(uri).into(viewHolder.ivImage);
+                viewHolder.ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
 
-                    }else {
-                        String imagePath = IMAGE + datas.get(position).get("path").toString();
-                        Uri uri = Uri.parse(imagePath);
-                        Glide.with(mContext).load(uri).into(viewHolder.ivImage);
-                        viewHolder.ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
-                    }
-                } else{
-                    /**获取网络图片**/
-
-                    String imagePath = IMAGE + datas.get(position).get("path").toString();
-                    Uri uri = Uri.parse(imagePath);
-                    Glide.with(mContext).load(uri).into(viewHolder.ivImage);
-                    viewHolder.ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
-                }
             }
 
 

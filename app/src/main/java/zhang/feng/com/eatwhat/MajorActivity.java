@@ -13,7 +13,7 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
+import zhang.feng.com.eatwhat.customview.CustomViewPager;
 import zhang.feng.com.eatwhat.fragment.ChatFragment;
 import zhang.feng.com.eatwhat.fragment.HomeFragment;
 import zhang.feng.com.eatwhat.fragment.MyFragmentAdapter;
@@ -23,7 +23,7 @@ import zhang.feng.com.eatwhat.fragment.TestFragment;
 public class MajorActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
     private AHBottomNavigation bottomNavigation;
     private List<Fragment> fragments = new ArrayList<>();//四个界面
-    private ViewPager viewPager;
+    private CustomViewPager viewPager;
     private String username;
 
 
@@ -40,15 +40,16 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
 
     private void addBottomItems(){
         bottomNavigation = (AHBottomNavigation)findViewById(R.id.bottom_navigation);//底部导航栏
-        viewPager = (ViewPager)findViewById(R.id.myviewpager);
+        viewPager = (CustomViewPager)findViewById(R.id.myviewpager);
+        viewPager.setScanScroll(false);
 
 
 
         //添加元素
-        AHBottomNavigationItem everydaymeal = new AHBottomNavigationItem(R.string.everyday_meal,R.drawable.tabone,R.color.colorPrimary);
-        AHBottomNavigationItem chatplace = new AHBottomNavigationItem(R.string.intelligent_test,R.drawable.nature,R.color.colorPrimary);
-        AHBottomNavigationItem news = new AHBottomNavigationItem(R.string.recommend,R.drawable.sleep,R.color.white);
-        AHBottomNavigationItem test = new AHBottomNavigationItem(R.string.chat_zone,R.drawable.knoleage,R.color.white);
+        AHBottomNavigationItem everydaymeal = new AHBottomNavigationItem(R.string.everyday_meal,R.drawable.tabone, R.color.tabone);
+        AHBottomNavigationItem chatplace = new AHBottomNavigationItem(R.string.intelligent_test,R.drawable.nature,R.color.tabtwo);
+        AHBottomNavigationItem news = new AHBottomNavigationItem(R.string.chat_zone,R.drawable.sleep,R.color.tabthree);
+        AHBottomNavigationItem test = new AHBottomNavigationItem(R.string.recommend,R.drawable.knoleage,R.color.tabfor);
 
 
         //添加元素
@@ -59,7 +60,7 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
 
 
         //添加背景色
-        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#54FF9F"));
+        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
 
         //禁止转化
         bottomNavigation.setBehaviorTranslationEnabled(false);
@@ -68,30 +69,30 @@ public class MajorActivity extends AppCompatActivity implements HomeFragment.OnF
 //        bottomNavigation.manageFloatingActionButtonBehavior();
 
         //设置颜色变换,选中的图标着色以及文本的颜色
-        bottomNavigation.setAccentColor(Color.parseColor("#CDCDB4"));
+        bottomNavigation.setAccentColor(Color.parseColor("#1296db"));
 //      未选中的图标着色及文本颜色
-        bottomNavigation.setInactiveColor(Color.parseColor("#00CDCD"));
+        bottomNavigation.setInactiveColor(Color.parseColor("#999999"));
 
 
         //给drawable染色
-        bottomNavigation.setForceTint(false);
+        bottomNavigation.setForceTint(true);
 
         //在导航中展示颜色
-        bottomNavigation.setTranslucentNavigationEnabled(true);
+        bottomNavigation.setTranslucentNavigationEnabled(false);
 
         //设置标题显示状态
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 
 
         //显示圆形效果
-        bottomNavigation.setColored(true);
+        bottomNavigation.setColored(false);
 
         //
         bottomNavigation.setCurrentItem(0);
 
         //定做通知
-        bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F63D2B"));
-        bottomNavigation.setNotification("1",3);
+//        bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F63D2B"));
+//        bottomNavigation.setNotification("1",3);
 
 
 

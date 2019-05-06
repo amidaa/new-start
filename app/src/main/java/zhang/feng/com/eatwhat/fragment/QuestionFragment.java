@@ -264,7 +264,7 @@ public class QuestionFragment extends Fragment {
                 @Override
                 public void onResponse(JSONObject response) {
                     if("1".equals(response.optString("message"))){
-                        Toast.makeText(getActivity(),response.optString("message"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"填写成功", Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(getActivity(),"网络开小差啦，请稍后重试", Toast.LENGTH_SHORT).show();
                     }

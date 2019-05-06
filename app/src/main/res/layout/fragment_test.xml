@@ -4,11 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.TestFragment">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="能量一周统计"
+        android:textColor="@android:color/holo_green_dark"
+        android:layout_marginBottom="50dp"/>
 
-    <lecho.lib.hellocharts.view.LineChartView
+    <lecho.lib.hellocharts.view.ColumnChartView
         android:id="@+id/bloodpressurechart"
-        android:layout_height="300dp"
-        android:layout_width="match_parent"/>
+        android:layout_height="400dp"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_gravity="bottom" />
 
 
 </FrameLayout>

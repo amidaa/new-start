@@ -17,6 +17,10 @@
     <color name="green4">#008B00</color>
     <color name="MediumOrchid">#BA55D3</color>
     <color name="Coral">#FF7F50</color>
+    <color name="tabone">#455C65</color>
+    <color name="tabtwo">#00886A</color>
+    <color name="tabthree">#8B6B62</color>
+    <color name="tabfor">#770000FF</color>
 
     <color name="bg_item_swiping_state">#ffddddff</color>
 

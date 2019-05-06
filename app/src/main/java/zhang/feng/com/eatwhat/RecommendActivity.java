@@ -118,11 +118,72 @@ public class RecommendActivity extends AppCompatActivity {
         }
         @Override
         protected void convert(BaseViewHolder helper, Food item) {
+
+            String fooduse = "";
+            switch (item.getUse()){
+                case "a":
+                    fooduse="健脾养胃";
+                    break;
+                case "b":
+                    fooduse="清热去火";
+                    break;
+                case "c":
+                    fooduse="降火清便";
+                    break;
+                case "d":
+                    fooduse="凉血";
+                    break;
+                case "e":
+                    fooduse="利尿";
+                    break;
+                case "f":
+                    fooduse="清肝明目";
+                    break;
+                case "g":
+                    fooduse="疏风散热";
+                    break;
+                case "h":
+                    fooduse="祛风湿";
+                    break;
+                case "i":
+                    fooduse="发汗祛寒";
+                    break;
+                default:
+                    fooduse="活血止血";
+
+
+            }
+
+            String usepeople= "";
+            switch (item.getAppropriate()){
+                case "a":
+                    usepeople="全体人群";
+                    break;
+                case "b":
+                    usepeople="心脑血管病患者";
+                    break;
+                case "c":
+                    usepeople="风湿关节炎患者";
+                    break;
+                case "d":
+                    usepeople="婴儿，体弱多病者";
+                    break;
+                case "e":
+                    usepeople="肥胖患者";
+                    break;
+                case "f":
+                    usepeople="肠炎或肠胃不好者";
+                    break;
+                default:
+                    usepeople="全体人群";
+
+
+            }
             helper.setText(R.id.h_food_name,"名称："+item.getFoodname()).
                     setText(R.id.food_weight,"重量："+item.getWeight()+"g").
                     setText(R.id.food_energy, "能量："+item.getEnergy()+"kcal").
-                    setText(R.id.food_use,"适宜人群："+item.getUse()).
-                    setText(R.id.food_appropriate,"适用："+item.getAppropriate()).
+                    setText(R.id.food_use,"适宜人群："+usepeople).
+                    setText(R.id.food_appropriate,"适用："+fooduse).
                     setText(R.id.food_fat,"脂肪："+String.valueOf(item.getFat())+"克").
                     setText(R.id.food_carbohydrate,"碳水化合物："+String.valueOf(item.getCarbohydrate())+"克").
                     setText(R.id.food_protein,"蛋白质："+String.valueOf(item.getProtein())+"克").

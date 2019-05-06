@@ -50,8 +50,7 @@
             android:layout_alignLeft="@+id/high_pressure_img"
             android:visibility="visible"
             android:text="@string/high_pressure"
-            android:textSize="20dp"
-            android:textColor="@color/colorBottomNavigationPrimary"/>
+            android:textSize="18dp" />
         <!--低压值-->
         <ImageView
             android:id="@+id/low_pressure_img"
@@ -69,8 +68,7 @@
             android:visibility="visible"
             android:layout_alignLeft="@+id/low_pressure_img"
             android:text="@string/low_pressure"
-            android:textSize="20dp"
-            android:textColor="@color/colorBottomNavigationPrimary"/>
+            android:textSize="18dp" />
     </RelativeLayout>
     <EditText
         android:id="@+id/write_high"

@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -40,8 +39,6 @@ import zhang.feng.com.eatwhat.PersonalCenterActivity;
 import zhang.feng.com.eatwhat.QuestionActivity;
 import zhang.feng.com.eatwhat.R;
 import zhang.feng.com.eatwhat.RecommendActivity;
-import zhang.feng.com.eatwhat.SearchActivity;
-import zhang.feng.com.eatwhat.SettingsActivity;
 import zhang.feng.com.eatwhat.Users;
 import zhang.feng.com.eatwhat.banner.GlideImageLoader;
 import zhang.feng.com.eatwhat.dialog.CustomDialog;
@@ -132,7 +129,7 @@ public class HomeFragment extends Fragment {
 //        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         toolbar.inflateMenu(R.menu.toolbar);
-        toolbar.setNavigationIcon(R.drawable.logo_start);
+        toolbar.setNavigationIcon(R.mipmap.head_ee);
         toolbar.setTitle("首页");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,29 +137,29 @@ public class HomeFragment extends Fragment {
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.search:
-                        Intent search_intent = new Intent(getActivity(), SearchActivity.class);
-                        startActivity(search_intent);
-                        break;
-                    case R.id.love:
-                        Intent love_intent = new Intent(getActivity(), SearchActivity.class);
-                        startActivity(love_intent);
-                        break;
-                    case R.id.setting:
-                        Intent setting_intent = new Intent(getActivity(), SettingsActivity.class);
-                        startActivity(setting_intent);
-                        break;
-
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
+//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                switch (item.getItemId()){
+//                    case R.id.search:
+//                        Intent search_intent = new Intent(getActivity(), SearchActivity.class);
+//                        startActivity(search_intent);
+//                        break;
+//                    case R.id.love:
+//                        Intent love_intent = new Intent(getActivity(), SearchActivity.class);
+//                        startActivity(love_intent);
+//                        break;
+//                    case R.id.setting:
+//                        Intent setting_intent = new Intent(getActivity(), SettingsActivity.class);
+//                        startActivity(setting_intent);
+//                        break;
+//
+//                    default:
+//                        break;
+//                }
+//                return true;
+//            }
+//        });
 
 //      浮动按钮的设置
         FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);

@@ -1,8 +1,8 @@
 package zhang.feng.com.eatwhat.goods;
 
 public class Issue {
-    private Integer personId;//用户id
-    private Integer serial_number;//序列号
+    private int personid;//用户id
+    private long serial_number;//序列号
     private String date;//发布时间
     private String content;//发表内容
     private String img_paths;//图片地址
@@ -10,10 +10,10 @@ public class Issue {
     private String mood;//心情
     private int view_number;//观看数
 
-    public Integer getSerial_number() {
+    public long getSerial_number() {
         return serial_number;
     }
-    public void setSerial_number(Integer serial_number) {
+    public void setSerial_number(long serial_number) {
         this.serial_number = serial_number;
     }
 
@@ -48,16 +48,17 @@ public class Issue {
         this.mood = mood;
     }
 
-    public Integer getPersonId() {
-        return personId;
+
+    public int getPersonid() {
+        return personid;
     }
 
-    public void setPersonId(Integer personId) {
-        this.personId = personId;
+    public void setPersonid(int personid) {
+        this.personid = personid;
     }
 
-    public Issue(Integer personId, Integer serial_number, String date, String content, String img_paths, String location, String mood, int view_number) {
-        this.personId = personId;
+    public Issue(int personid, long serial_number, String date, String content, String img_paths, String location, String mood, int view_number) {
+        this.personid = personid;
         this.serial_number = serial_number;
         this.date = date;
         this.content = content;

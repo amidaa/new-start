@@ -43,6 +43,7 @@ import top.zibin.luban.OnCompressListener;
 import zhang.feng.com.eatwhat.acache.ACache;
 import zhang.feng.com.eatwhat.adapter.GridViewAddImageAdapter;
 import zhang.feng.com.eatwhat.util.DataUtil;
+import zhang.feng.com.eatwhat.util.FileImageUpload;
 import zhang.feng.com.eatwhat.volleyopr.DefaultErrorListener;
 import zhang.feng.com.eatwhat.volleyopr.VolleyHttpApi;
 
@@ -65,6 +66,8 @@ public class PublishActivity extends AppCompatActivity {
     private String imagepath="";//图片名字
 
     private String mood = "";//心情
+    private List<File> mFiles;//上传的文件
+    private List<String> filesPathCache;//文件地址
     private List<Map<String,Object>> datas;//图片地址的所有信息
     private GridViewAddImageAdapter mGridViewAddImageAdapter;
     private final String IMAGE_DIR = Environment.getExternalStorageDirectory()+"/";
@@ -145,7 +148,7 @@ public class PublishActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ((ImageButton) v).setImageResource(R.drawable.success_active);
+                ((ImageButton) v).setImageResource(R.drawable.smile_activy);
                 mood = "ADMIRING";
 
             }
@@ -162,6 +165,8 @@ public class PublishActivity extends AppCompatActivity {
 
 
         datas = new ArrayList<>();
+        mFiles = new ArrayList<>();
+        filesPathCache = new ArrayList<>();
         mGridViewAddImageAdapter = new GridViewAddImageAdapter(datas,this);
         gw.setAdapter(mGridViewAddImageAdapter);
 
@@ -210,7 +215,7 @@ public class PublishActivity extends AppCompatActivity {
                             Random ran =new Random(System.currentTimeMillis());
                             DataUtil dataUtil = new DataUtil();
                             information.put("personid",hostId);
-                            information.put("serial_number",ran.nextInt(100));
+                            information.put("serial_number",ran.nextInt(1000));
                             information.put("content",content);
                             information.put("img_paths",imagepath);
                             information.put("date",dataUtil.simpleDateYMD(new Date()));
@@ -243,15 +248,7 @@ public class PublishActivity extends AppCompatActivity {
                             }
                         });
 
-                       JSONObject images = new JSONObject();
-                        try {
-                            images.put("images",datas);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        mCache.put("imagescache",images,2 * ACache.TIME_DAY);
-
+                        new Thread(networkTask).start();
                         //保存现场
                         finish();
                         break;
@@ -306,6 +303,7 @@ public class PublishActivity extends AppCompatActivity {
                 case TAKE_PHOTO:
 
                     if (mPhotoFile != null) {
+                        mFiles.add(mPhotoFile);
                         uploadImage(mPhotoFile);
                         imagepath += mPhotoFile.getName()+"#";
                     } else {
@@ -327,6 +325,7 @@ public class PublishActivity extends AppCompatActivity {
                                 //根据索引值获取图片路径
                                 String path = cursor.getString(column_index);
                                 File f = new File(path);
+                                mFiles.add(f);
                                 uploadImage(f);
                                 imagepath += f.getName()+"#";
                             }
@@ -404,10 +403,46 @@ public class PublishActivity extends AppCompatActivity {
 
     public void photoPath(String path){
         Map<String,Object> map = new HashMap<>();
+        filesPathCache.add(path);
         map.put("path",path);
         datas.add(map);
         mGridViewAddImageAdapter.notifyDataSetChanged();
     }
+
+
+    Handler nethandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle data = msg.getData();
+            String val = data.getString("value");
+            Log.i("mylog", "请求结果为-->" + val);
+            // TODO
+            // UI界面的更新等相关操作
+        }
+    };
+
+
+    Runnable networkTask = new Runnable() {
+
+        @Override
+        public void run() {
+            // TODO
+            // 在这里进行 http request.网络请求相关操作
+
+            //图片上传
+
+            FileImageUpload fileImageUpload = new FileImageUpload();
+            for(int i=0;i<mFiles.size();i++){
+                fileImageUpload.uploadFile(mFiles.get(i)," http://47.112.28.145:8090/UploadApi/uploads");
+            }
+            Message msg = new Message();
+            Bundle data = new Bundle();
+            data.putString("value", "请求结果");
+            msg.setData(data);
+            nethandler.sendMessage(msg);
+        }
+    };
 
 
 }

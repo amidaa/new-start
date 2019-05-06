@@ -3,7 +3,6 @@ package zhang.feng.com.eatwhat;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -67,6 +66,7 @@ public class PersonalCenterActivity extends AppCompatActivity {
                 BodyInformation bodyinformation = gson.fromJson(information,BodyInformation.class);//将json字符串通过gson转化为对应的对象
                 heightText.setRightText(bodyinformation.getHeight()+"");
                 weightText.setRightText(bodyinformation.getWeight()+"");
+                ageText.setRightText(bodyinformation.getWalkstep()+"");
                 String illness = "";
                 switch (bodyinformation.getIllness()){
                     case "Value A":
@@ -102,7 +102,10 @@ public class PersonalCenterActivity extends AppCompatActivity {
 
                 }
                 symptomText.setRightText(illness);
-                illnessTimeText.setRightText(bodyinformation.getIllnesstime()+"年");
+                if(bodyinformation.getIllnesstime()!=null){
+                    illnessTimeText.setRightText(bodyinformation.getIllnesstime()+"年");
+                }
+
                 if(String.valueOf(bodyinformation.getExercise())=="null"){
                     exerciseTimeText.setRightText("未知");
                 }else{
@@ -126,7 +129,6 @@ public class PersonalCenterActivity extends AppCompatActivity {
         mSharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);//私有数据，只能被应用本身访问
         int id = mSharedPreferences.getInt("hostid",1);
         username = mSharedPreferences.getString("username","Lisa");
-        Toast.makeText(PersonalCenterActivity.this,String.valueOf(id), Toast.LENGTH_SHORT).show();
         String url = URL+id;
         mVolleyHttpApi.UserInfoController(url, PersonalCenterActivity.this, new Response.Listener<JSONObject>() {
             @Override

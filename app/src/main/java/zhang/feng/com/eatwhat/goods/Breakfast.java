@@ -6,16 +6,16 @@ public class Breakfast {
     private Integer type;
     private Integer weight;
     private String foodname;
-    private byte[] img_path;
+    private String image_path;
     private float energy;
 
-    public Breakfast(Integer id, String aim_illness, Integer type, Integer weight, String foodname, byte[] img_path, float energy) {
+    public Breakfast(Integer id, String aim_illness, Integer type, Integer weight, String foodname, String image_path, float energy) {
         this.id = id;
         this.aim_illness = aim_illness;
         this.type = type;
         this.weight = weight;
         this.foodname = foodname;
-        this.img_path = img_path;
+        this.image_path = image_path;
         this.energy = energy;
     }
 
@@ -63,12 +63,12 @@ public class Breakfast {
         this.foodname = foodname;
     }
 
-    public byte[] getImg_path() {
-        return img_path;
+    public String getImage_path() {
+        return image_path;
     }
 
-    public void setImg_path(byte[] img_path) {
-        this.img_path = img_path;
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
     }
 
     public float getEnergy() {

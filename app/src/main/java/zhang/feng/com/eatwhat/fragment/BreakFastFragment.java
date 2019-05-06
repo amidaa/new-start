@@ -5,14 +5,17 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
@@ -51,6 +54,7 @@ public class BreakFastFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private List<Breakfast> mBreakFastFoods;
     private static String HOST="http://47.112.28.145:8090/MealApi/findType/breakfast&type=";
+    private static String BERAKIMAGEPATH="http://47.112.28.145:8080/images/foodimage/";
     private FoodHttpApi mFoodHttpApi;
 
     // TODO: Rename and change types of parameters
@@ -231,6 +235,10 @@ public class BreakFastFragment extends Fragment {
         @Override
         protected void convert(BaseViewHolder helper, Breakfast item) {
             helper.setText(R.id.food_name,item.getFoodname()).setText(R.id.per_content,item.getWeight()+"g").setText(R.id.energy, item.getEnergy()+"kcal");
+            ImageView imageView = helper.getView(R.id.serial_number);
+            String imagePath = BERAKIMAGEPATH + item.getImage_path();
+            Uri uri = Uri.parse(imagePath);
+            Glide.with(getActivity()).load(uri).into(imageView);
         }
 
 

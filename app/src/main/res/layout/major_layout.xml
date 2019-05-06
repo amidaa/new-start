@@ -7,13 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".MajorActivity">
 
-    <androidx.viewpager.widget.ViewPager
+    <zhang.feng.com.eatwhat.customview.CustomViewPager
         android:id="@+id/myviewpager"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
 
-    </androidx.viewpager.widget.ViewPager>
+    </zhang.feng.com.eatwhat.customview.CustomViewPager>
 
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
         android:id="@+id/bottom_navigation"
